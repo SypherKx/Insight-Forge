@@ -14,10 +14,9 @@ function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-[var(--canvas)] text-[var(--ink)] px-4">
       <div className="max-w-md text-center">
-        <div className="text-6xl font-serif text-[var(--primary)] mb-4">✳ 404</div>
         <h1 className="text-3xl font-serif font-normal text-[var(--ink)]">Page not found</h1>
         <p className="mt-2 text-sm text-[var(--muted)]">
-          The requested page does not exist in our Claude-inspired RAG workspace.
+          The requested page does not exist in our RAG workspace.
         </p>
         <div className="mt-6">
           <Link to="/">
@@ -36,7 +35,6 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-[var(--canvas)] text-[var(--ink)] px-4">
       <div className="max-w-md text-center">
-        <div className="text-4xl text-[var(--primary)] mb-3">✳</div>
         <h1 className="text-2xl font-serif font-normal text-[var(--ink)]">
           An error occurred
         </h1>
@@ -67,13 +65,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "InsightForge AI — Meet your thinking partner for Healthcare & Education" },
+      { title: "InsightForge AI — Retrieval-Augmented Generation for Healthcare & Education" },
       {
         name: "description",
-        content: "Warm editorial RAG document intelligence and clinical/academic anomaly detection, inspired by Claude.com aesthetics.",
+        content: "Warm editorial RAG document intelligence and clinical/academic anomaly detection.",
       },
       { name: "author", content: "InsightForge AI" },
-      { property: "og:title", content: "InsightForge AI — Claude.com Aesthetic RAG" },
+      { property: "og:title", content: "InsightForge AI — Healthcare & Education RAG" },
       { property: "og:description", content: "Warm cream canvas, coral accents, serif display headlines, and dark navy product chrome." },
       { property: "og:type", content: "website" },
     ],

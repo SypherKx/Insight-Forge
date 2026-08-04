@@ -2,7 +2,7 @@
 @source "../src";
 @import "tw-animate-css";
 
-/* Anthropic Claude.com Warm Editorial Design System */
+/* Warm Editorial Design System for InsightForge AI */
 
 @theme inline {
   --radius-xs: 4px;
@@ -110,7 +110,7 @@ html.dark, body.dark, .dark {
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 
-  /* Serif Display Hierarchy (Copernicus / Cormorant Garamond 400 with negative tracking) */
+  /* Serif Display Hierarchy */
   h1, h2, h3 {
     font-family: var(--font-serif);
     font-weight: 400;
@@ -227,10 +227,10 @@ html.dark, body.dark, .dark {
 
 @layer utilities {
   /* ------------------------------------------------------------- */
-  /* CLAUDE.COM SIGNATURE BUTTONS                                  */
+  /* INSIGHTFORGE SIGNATURE BUTTONS                                */
   /* ------------------------------------------------------------- */
 
-  /* Coral Signature Primary CTA Button */
+  /* Primary CTA Button */
   .button-primary {
     background-color: var(--primary);
     color: var(--on-primary);

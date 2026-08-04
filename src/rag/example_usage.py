@@ -111,7 +111,7 @@ def root_cause_integration_example():
         top_k=5
     )
 
-    # Use this context in the explanation prompt to Claude
+    # Use this context in the explanation prompt to the LLM generator
     print("Anomaly Context:")
     print(f"  Metric: {anomaly_context['metric']}")
     print(f"  Type: {anomaly_context['anomaly_type']}")
