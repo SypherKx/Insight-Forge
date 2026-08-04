@@ -1,6 +1,6 @@
 # 🛠️ InsightForge AI — Retrieval-Augmented Generation (RAG) for Healthcare & Education
 
-> **My Journey into RAG: Healthcare & Educational Anomaly Intelligence & Cited Evidence Q&A**
+> **AI-powered healthcare and educational intelligence platform that detects clinical vitals anomalies, uncovers protocol root causes, and delivers grounded, context-aware explanations using a local Retrieval-Augmented Generation (RAG) pipeline and semantic vector search.**
 
 Welcome to **InsightForge AI**—a **RAG (Retrieval-Augmented Generation)** platform designed for **Healthcare & Education**! I built this platform to connect clinical vital anomaly detection and academic metric tracking with LLMs and local vector knowledge bases. 
 
