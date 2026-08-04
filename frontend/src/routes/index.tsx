@@ -28,7 +28,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Retrieval-Augmented Generation (RAG) for medical literature, FDA guidelines, patient records, and course syllabi.",
+          "AI-powered healthcare and educational intelligence platform that detects clinical vitals anomalies, uncovers protocol root causes, and delivers grounded, context-aware explanations using a local Retrieval-Augmented Generation (RAG) pipeline and semantic vector search.",
       },
     ],
   }),

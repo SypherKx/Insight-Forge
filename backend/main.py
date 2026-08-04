@@ -44,7 +44,7 @@ async def lifespan(app: FastAPI):
 # Create FastAPI app
 app = FastAPI(
     title=settings.app_name,
-    description="Business Anomaly Detection & Explanation System",
+    description="AI-powered Healthcare & Educational RAG Intelligence Platform",
     version=settings.app_version,
     lifespan=lifespan,
 )

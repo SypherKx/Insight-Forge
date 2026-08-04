@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "insightforge-ingestion"
 version = "1.0.0"
-description = "CSV Ingestion Pipeline for InsightForge AI"
+description = "AI-powered healthcare and educational intelligence platform that detects clinical vitals anomalies, uncovers protocol root causes, and delivers grounded, context-aware explanations using a local Retrieval-Augmented Generation (RAG) pipeline and semantic vector search."
 authors = [
     {name = "InsightForge AI", email = "dev@insightforge.ai"}
 ]
