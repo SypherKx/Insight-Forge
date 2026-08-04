@@ -1,0 +1,23 @@
+# RAG Module Dependencies
+
+# Core ML/NLP
+sentence-transformers>=2.2.0
+torch>=2.0.0
+numpy>=1.24.0
+
+# Vector search
+faiss-cpu>=1.7.4; platform_system != "Darwin"  # Use faiss-gpu for CUDA
+# For macOS with M1/M2: pip install faiss-gpu
+
+# Document parsing
+pypdf>=3.0.0
+pdfminer.six>=20221105; python_version >= "3.9"  # Alternative PDF parser
+
+# Data models
+pydantic>=2.0.0
+
+# Optional: tiktoken for accurate token counting
+# tiktoken>=0.5.0
+
+# Optional: For advanced chunking strategies
+# spacy>=3.0.0

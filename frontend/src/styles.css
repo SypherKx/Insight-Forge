@@ -1,0 +1,444 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+/* Anthropic Claude.com Warm Editorial Design System */
+
+@theme inline {
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 9999px;
+  --radius-full: 9999px;
+
+  --color-primary: #cc785c;
+  --color-primary-active: #a9583e;
+  --color-primary-disabled: #e6dfd8;
+  --color-accent-teal: #5db8a6;
+  --color-accent-amber: #e8a55a;
+
+  --color-canvas: #faf9f5;
+  --color-surface-soft: #f5f0e8;
+  --color-surface-card: #efe9de;
+  --color-surface-cream-strong: #e8e0d2;
+  --color-surface-dark: #181715;
+  --color-surface-dark-elevated: #252320;
+  --color-surface-dark-soft: #1f1e1b;
+  --color-hairline: #e6dfd8;
+  --color-hairline-soft: #ebe6df;
+
+  --color-ink: #141413;
+  --color-body-strong: #252523;
+  --color-body: #3d3d3a;
+  --color-muted: #6c6a64;
+  --color-muted-soft: #8e8b82;
+
+  --color-on-primary: #ffffff;
+  --color-on-dark: #faf9f5;
+  --color-on-dark-soft: #a09d96;
+
+  --color-success: #5db872;
+  --color-warning: #d4a017;
+  --color-error: #c64545;
+
+  --font-serif: "Cormorant Garamond", "Tiempos Headline", Garamond, "Times New Roman", serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", monospace;
+}
+
+:root {
+  --primary: #cc785c;
+  --primary-active: #a9583e;
+  --primary-disabled: #e6dfd8;
+  --accent-teal: #5db8a6;
+  --accent-amber: #e8a55a;
+
+  --canvas: #faf9f5;
+  --surface-soft: #f5f0e8;
+  --surface-card: #efe9de;
+  --surface-cream-strong: #e8e0d2;
+  --surface-dark: #181715;
+  --surface-dark-elevated: #252320;
+  --surface-dark-soft: #1f1e1b;
+  --hairline: #e6dfd8;
+  --hairline-soft: #ebe6df;
+
+  --ink: #141413;
+  --body-strong: #252523;
+  --body: #3d3d3a;
+  --muted: #6c6a64;
+  --muted-soft: #8e8b82;
+
+  --on-primary: #ffffff;
+  --on-dark: #faf9f5;
+  --on-dark-soft: #a09d96;
+}
+
+/* Dark Mode Overrides */
+html.dark, body.dark, .dark {
+  --canvas: #141413;
+  --surface-soft: #1c1c1a;
+  --surface-card: #242320;
+  --surface-cream-strong: #2c2b27;
+  --surface-dark: #0a0a09;
+  --surface-dark-elevated: #181715;
+  --surface-dark-soft: #121211;
+  --hairline: #2e2c29;
+  --hairline-soft: #262422;
+
+  --ink: #faf9f5;
+  --body-strong: #f0eee8;
+  --body: #d8d5cc;
+  --muted: #a09d96;
+  --muted-soft: #78756e;
+}
+
+@layer base {
+  * {
+    border-color: var(--hairline);
+  }
+
+  html, body {
+    background-color: var(--canvas);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.55;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Serif Display Hierarchy (Copernicus / Cormorant Garamond 400 with negative tracking) */
+  h1, h2, h3 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    color: var(--ink);
+  }
+
+  .display-xl {
+    font-family: var(--font-serif);
+    font-size: 64px;
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+    color: var(--ink);
+  }
+
+  @media (max-width: 768px) {
+    .display-xl {
+      font-size: 38px;
+      letter-spacing: -0.8px;
+    }
+  }
+
+  .display-lg {
+    font-family: var(--font-serif);
+    font-size: 48px;
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    color: var(--ink);
+  }
+
+  @media (max-width: 768px) {
+    .display-lg {
+      font-size: 32px;
+    }
+  }
+
+  .display-md {
+    font-family: var(--font-serif);
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+    color: var(--ink);
+  }
+
+  .display-sm {
+    font-family: var(--font-serif);
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.3px;
+    color: var(--ink);
+  }
+
+  .title-lg {
+    font-family: var(--font-sans);
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--ink);
+  }
+
+  .title-md {
+    font-family: var(--font-sans);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+
+  .title-sm {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+
+  .body-md {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.55;
+    color: var(--body);
+  }
+
+  .body-sm {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+
+  .caption {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--muted);
+  }
+
+  .caption-uppercase {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--primary);
+  }
+}
+
+@layer utilities {
+  /* ------------------------------------------------------------- */
+  /* CLAUDE.COM SIGNATURE BUTTONS                                  */
+  /* ------------------------------------------------------------- */
+
+  /* Coral Signature Primary CTA Button */
+  .button-primary {
+    background-color: var(--primary);
+    color: var(--on-primary);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.0;
+    border-radius: 8px;
+    padding: 12px 20px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .button-primary:hover {
+    background-color: var(--primary-active);
+    transform: translateY(-1px);
+  }
+
+  .button-primary:active {
+    transform: translateY(0);
+  }
+
+  /* Cream Secondary Button with Hairline Border */
+  .button-secondary {
+    background-color: var(--canvas);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.0;
+    border-radius: 8px;
+    padding: 12px 20px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1px solid var(--hairline);
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .button-secondary:hover {
+    background-color: var(--surface-soft);
+    border-color: var(--muted-soft);
+  }
+
+  /* Secondary Button on Dark Navy Cards */
+  .button-secondary-on-dark {
+    background-color: var(--surface-dark-elevated);
+    color: var(--on-dark);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.0;
+    border-radius: 8px;
+    padding: 12px 20px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .button-secondary-on-dark:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+  }
+
+  /* Inverted Button inside Coral Callout Cards */
+  .button-on-coral {
+    background-color: var(--canvas);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    padding: 12px 24px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .button-on-coral:hover {
+    background-color: var(--surface-soft);
+  }
+
+  .button-pricing-pill {
+    background-color: var(--primary);
+    color: var(--on-primary);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 9999px;
+    padding: 12px 24px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .button-pricing-pill:hover {
+    background-color: var(--primary-active);
+  }
+
+  /* Inline Coral Text Link */
+  .text-link {
+    color: var(--primary);
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  .text-link:hover {
+    color: var(--primary-active);
+    text-decoration: underline;
+  }
+
+  /* ------------------------------------------------------------- */
+  /* CARDS & CONTAINERS                                             */
+  /* ------------------------------------------------------------- */
+
+  /* Light Cream Feature Card */
+  .feature-card {
+    background-color: var(--surface-card);
+    border: 1px solid var(--hairline);
+    border-radius: 12px;
+    padding: 32px;
+  }
+
+  /* Dark Navy Product Chrome Card */
+  .product-mockup-card-dark {
+    background-color: var(--surface-dark);
+    color: var(--on-dark);
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Specialized Code Window Card */
+  .code-window-card {
+    background-color: var(--surface-dark);
+    color: var(--on-dark);
+    border-radius: 12px;
+    padding: 24px;
+    font-family: var(--font-mono);
+  }
+
+  /* Full-Bleed Coral Callout Card */
+  .callout-card-coral {
+    background-color: var(--primary);
+    color: var(--on-primary);
+    border-radius: 12px;
+    padding: 48px;
+  }
+
+  /* Category Badge Pill */
+  .badge-pill {
+    background-color: var(--surface-card);
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 9999px;
+    padding: 4px 12px;
+    border: 1px solid var(--hairline);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .badge-coral {
+    background-color: var(--primary);
+    color: var(--on-primary);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border-radius: 9999px;
+    padding: 4px 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* Universal Section Rhythm */
+  .section-rhythm {
+    padding-top: 96px;
+    padding-bottom: 96px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: var(--hairline);
+    border-radius: 4px;
+  }
+}

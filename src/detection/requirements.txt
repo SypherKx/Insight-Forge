@@ -1,0 +1,24 @@
+# Anomaly Detection Module Dependencies
+
+# Core Data Science
+pandas>=2.0.0
+numpy>=1.24.0
+scipy>=1.10.0
+statsmodels>=0.14.0
+
+# Pydantic for data validation
+pydantic>=2.4.0
+
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+
+# Optional: Performance optimization
+# numexpr>=2.8.0
+# bottleneck>=23.0
+
+# Development tools
+black>=23.0
+flake8>=6.0
+mypy>=1.4.0
+isort>=5.12.0

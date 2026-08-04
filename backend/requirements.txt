@@ -1,0 +1,29 @@
+# InsightForge AI - Backend Dependencies
+
+# Core Framework
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+
+# Request handling
+python-multipart>=0.0.6
+httpx>=0.25.0
+
+# Data processing (shared with core modules)
+pandas>=2.0.0
+numpy>=1.24.0
+scipy>=1.10.0
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+
+# Statistical analysis
+statsmodels>=0.14.0
+
+# Database
+sqlalchemy>=2.0.0
+
+# File handling
+python-dateutil>=2.8.0
+chardet>=5.0.0
+
+# Logging
+structlog>=23.0.0
