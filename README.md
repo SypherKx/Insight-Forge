@@ -1,33 +1,34 @@
-# 🛠️ InsightForge AI
-> **My First Journey into RAG: Business Anomaly Detection & AI-Powered Explanations**
+# 🛠️ InsightForge AI — Retrieval-Augmented Generation (RAG) for Healthcare & Education
 
-Hey there! 👋 Welcome to **InsightForge AI**—this is my very first project exploring **RAG (Retrieval-Augmented Generation)**! I built this platform to learn how to connect statistical anomaly detection with LLMs and custom knowledge bases. 
+> **My Journey into RAG: Healthcare & Educational Anomaly Intelligence & Cited Evidence Q&A**
 
-InsightForge AI helps businesses monitor key metrics (revenue, orders, active users) in real time. It automatically detects deviations (anomalies), traces them to their root cause, and uses a custom local RAG pipeline to pull context from business documents (like marketing reports or operations guides) to explain **what** happened and **why** in plain English.
+Welcome to **InsightForge AI**—a **RAG (Retrieval-Augmented Generation)** platform designed for **Healthcare & Education**! I built this platform to connect clinical vital anomaly detection and academic metric tracking with LLMs and local vector knowledge bases. 
+
+InsightForge AI helps medical clinicians, clinical trialists, researchers, and university faculties monitor key health and academic signals in real time (blood lab test spikes, patient ICU vitals, course completion drop-offs). It automatically detects deviations, traces them to protocol root causes, and uses a local RAG pipeline to pull context from clinical guidelines (FDA drug protocols, PubMed medical research papers, university lecture syllabi) to explain **what** happened and **why** with exact page and paragraph citations.
 
 ---
 
 ## 🧠 Why I Built This & My RAG Learning Journey
 
-Traditional dashboards are great at showing you *what* changed, but they never tell you *why*. When a metric drops, you usually have to dig through internal slack messages, doc files, or incident logs to piece together the context. 
+Traditional medical dashboards show *what* patient vital metric changed, but they don't give you immediate clinical protocol context. When a vital spikes or a trial metric drops, doctors and researchers have to manually search through 100-page PDF clinical guidelines, PubMed literature, or EMR records.
 
 I wanted to solve this by building a system that:
-1. Detects anomalies statistically.
-2. Automatically searches our internal documentation to find corresponding events (e.g., "AWS Server outage in APAC region" or "Marketing campaign launched").
-3. Synthesizes these two sources of information into an actionable summary.
+1. Detects clinical and academic anomalies statistically (Z-score, MAD, IQR, Pettitt change-point test).
+2. Automatically searches internal medical documentation & textbooks to find corresponding evidence (e.g., "Paxlovid dosage adjustment in renal impairment" or "Pediatric leukemia Phase 3 trial").
+3. Synthesizes these two sources of information into a zero-hallucination, cited executive summary.
 
-Since this was my first RAG project, my main goal was to understand vector databases, text chunking strategies, and dense embeddings.
+Since this was my RAG project, my main goal was to master vector databases, text chunking strategies, and dense embeddings for sensitive domain data.
 
 ---
 
 ## 🚀 How I Built the RAG Pipeline
 
-Here is a breakdown of the RAG architecture I implemented in the `src/rag/` folder:
+Here is a breakdown of the RAG architecture implemented in `src/rag/`:
 
 ```
 ┌──────────────────┐      ┌─────────────────┐      ┌────────────────────────┐
 │  Upload Context  │ ───> │ Text Chunking   │ ───> │  Dense Embeddings      │
-│ (PDF, MD, TXT)   │      │ (Size: 500 chars)│      │  (all-MiniLM-L6-v2)    │
+│ (Medical PDF, MD)│      │ (Size: 500 chars)│      │  (all-MiniLM-L6-v2)    │
 └──────────────────┘      └─────────────────┘      └────────────────────────┘
                                                                 │
                                                                 ▼
@@ -38,47 +39,39 @@ Here is a breakdown of the RAG architecture I implemented in the `src/rag/` fold
 ```
 
 ### 1. Ingestion & Chunking (`ingestion.py` & `chunker.py`)
-*   **File Ingestion**: Implemented a parser that supports uploading `.pdf`, `.txt`, and `.md` documents.
-*   **Overlapping Chunks**: Used a character-based windowing approach (default: `chunk_size=500` with `overlap=50`). The overlap ensures that sentences or contexts are not chopped in half at chunk boundaries.
+*   **File Ingestion**: Supports uploading PubMed `.pdf` papers, EMR `.csv` files, `.txt`, and `.md` textbook syllabi.
+*   **Overlapping Chunks**: Uses a windowing approach (`chunk_size=500` with `overlap=50`) to ensure medical sentences and clinical dosages are never split across boundaries.
 
 ### 2. Dense Vector Embeddings (`embeddings.py`)
-*   To represent the meaning of text chunks, I used the local **Hugging Face Sentence-Transformers** library.
-*   Model: `sentence-transformers/all-MiniLM-L6-v2`. It maps each text chunk into a **384-dimensional dense vector**, which represents its semantic meaning.
+*   Uses local **Hugging Face Sentence-Transformers** (`sentence-transformers/all-MiniLM-L6-v2`) to map each clinical text chunk into a **384-dimensional dense vector**.
 
 ### 3. Local Vector Database (`vectorstore.py` & `retriever.py`)
-*   **Facebook AI Similarity Search (FAISS)**: Since I wanted to run everything locally without subscribing to a cloud database, I used FAISS (`faiss-cpu`).
-*   **Index Flat Inner Product (`IndexFlatIP`)**: I normalized the embedding vectors and used FAISS's Inner Product index to calculate **Cosine Similarity** scores.
-*   **Incremental Updates & Save/Load**: Implemented pickle serialization to save the index (`.faiss` and `.meta` files) on disk, allowing index persistence.
+*   **Facebook AI Similarity Search (FAISS)**: Runs 100% locally with `faiss-cpu` to ensure HIPAA & FERPA ready data privacy with zero third-party cloud data leakage.
+*   **Cosine Similarity**: Normalizes embedding vectors and uses FAISS `IndexFlatIP` to calculate relevance scores.
+*   **Index Persistence**: Disk serialization (`.faiss` and `.meta` files) saves indices to disk.
 
 ### 4. LLM Retrieval & Prompt Synthesis (`pipeline.py`)
-*   When an anomaly is selected or a query is asked, the system encodes the query and searches the FAISS index for the top `k` matching text chunks.
-*   The retrieved context is inserted into a prompt template alongside the anomaly stats and sent to the **Groq API (Llama 3.3 70B)** to generate a grounded, hallucination-free explanation.
-
-### 💡 Core Things I Learned
-*   **Chunking is key**: If chunks are too small, you lose context. If they are too large, the embeddings get diluted and you exceed context limits.
-*   **Cosine Similarity**: Normalizing vectors before running an Inner Product search is a highly efficient way to compute similarity.
-*   **Persistence**: Balancing in-memory FAISS indices with disk serialization is crucial for building fast local web app search capabilities.
+*   Searches the FAISS index for top `k` matching text chunks for any query.
+*   Inserts retrieved evidence into prompt templates alongside anomaly stats and sends it to the **Groq API (Llama 3.3 70B)** to generate cited, grounded explanations.
 
 ---
 
 ## ✨ Features
 
-*   **🔍 Statistical Outlier Detection**: Ensemble algorithms (IQR, Z-score, Pettitt test) automatically find spikes, drops, or behavioral shifts in your data.
-*   **📊 Root Cause Analysis**: Quantifies exact driver segments (e.g., *Region: APAC*) using statistical impact attribution.
-*   **💬 RAG Knowledge Search**: Drag context files (marketing calendars, release logs) into the RAG pipeline and query them using natural language.
-*   **✨ Premium Visual UI**: A state-of-the-art dark-mode interface built with glassmorphism, responsive charts, and fluid micro-animations.
+*   **🔍 Statistical Health Signal Detection**: Ensemble algorithms (IQR, Z-score, Pettitt test) automatically isolate vital drops or lab test spikes.
+*   **📊 Protocol & Curriculum Attribution**: Quantifies exact driver dimensions (e.g., *Medication Dosage: Paxlovid* or *ICU Ward: 4*).
+*   **💬 Medical RAG Evidence Search**: Search FDA drug labels, PubMed papers, and textbook syllabi using natural language.
+*   **✨ Warm Editorial Interface**: A warm-tinted interface with Light/Dark mode toggling, responsive charts, and smooth scroll animations.
 
 ---
 
 ## ⚡ Quick Start
 
-Get your local instance running in under 5 minutes.
-
 ### Step 1: Install Backend & RAG Dependencies
 
 1. Navigate to the project directory:
    ```bash
-   cd "c:\Users\itska\OneDrive\Desktop\insight forge"
+   cd "c:\Users\itska\OneDrive\Desktop\Insight-Forge-master\Insight-Forge-master"
    ```
 
 2. Setup virtual environment:
@@ -107,9 +100,7 @@ Get your local instance running in under 5 minutes.
 
 Edit/create `.env` in the root directory:
 ```env
-# Paste your Groq API key here for RAG & Explanations:
 GROQ_API_KEY=your_groq_api_key_here
-
 DATABASE_URL=sqlite:///./insightforge.db
 RAG_ENABLED=true
 ```
@@ -125,36 +116,36 @@ RAG_ENABLED=true
 
 2. Install dependencies:
    ```bash
-   bun install   # or npm install
+   npm install   # or bun install
    ```
 
 3. Start the hot-reloading development server:
    ```bash
-   bun run dev   # or npm run dev
+   npm run dev
    ```
 
 4. Open in your browser:
-   *   **App UI**: http://localhost:5173
+   *   **App UI**: http://localhost:8081
 
 ---
 
 ## 🛠️ The Tech Stack
 
 ### Backend & AI
-*   **RAG Engine**: FAISS Index Flat Inner Product, Sentence Transformers (`all-MiniLM-L6-v2`), PyPDF / docx parsing.
+*   **RAG Engine**: FAISS Index Flat Inner Product, Sentence Transformers (`all-MiniLM-L6-v2`), PyPDF.
 *   **FastAPI**: High performance Python backend routing.
-*   **Pandas & NumPy**: Core data structure handling and matrix normalization.
+*   **Pandas & NumPy**: Core statistical data processing.
 
-### Premium Frontend
-*   **React 19 & Vite 7**: The latest runtime and build engine.
-*   **TanStack Router**: Type-safe routing for navigating views.
-*   **Tailwind CSS 4 & Framer Motion**: Sleek styling and responsive glassmorphic animations.
-*   **Recharts**: Modern business analytics visualizations.
+### Frontend
+*   **React 19 & Vite 7**: Modern UI runtime and build engine.
+*   **TanStack Router**: Type-safe routing for views.
+*   **Tailwind CSS 4 & Framer Motion**: Responsive styling and scroll animations.
+*   **Recharts**: Clinical and academic metric charts.
 
 ---
 
-## 💬 A Message to My Viewers & Fellow Learners
+## 💬 A Message to Viewers & Fellow Learners
 
-Thanks for checking out my project! As this is my **first time building a Retrieval-Augmented Generation (RAG) system**, I'm incredibly excited about the potential of vector databases and LLM context synthesis. 
+Thanks for checking out my project! As a project exploring **Retrieval-Augmented Generation (RAG) for Healthcare & Education**, I'm incredibly excited about the potential of vector databases and cited LLM synthesis. 
 
-If you are also learning RAG or have feedback on how I can optimize my chunking overlaps, FAISS indexing, or retrieval prompt structures, I'd love to connect! Open an issue or drop a line—let's build together! 🚀
+If you are also exploring RAG or have feedback on optimizing FAISS indices, chunking overlaps, or clinical prompt structures, let's connect! Open an issue or drop a line—let me know your thoughts! 🚀
