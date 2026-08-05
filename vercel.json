@@ -1,15 +1,7 @@
 {
-  "buildCommand": "cd frontend && npm install && npm run build",
-  "outputDirectory": "frontend/dist/client",
+  "buildCommand": "cd frontend && npm install && npx vite build --config vite.config.vercel.ts",
+  "outputDirectory": "frontend/dist",
   "rewrites": [
-    {
-      "source": "/api/v1/(.*)",
-      "destination": "/api/index.py"
-    },
-    {
-      "source": "/api/(.*)",
-      "destination": "/api/index.py"
-    },
     {
       "source": "/(.*)",
       "destination": "/index.html"
