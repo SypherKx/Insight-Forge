@@ -227,129 +227,170 @@ html.dark, body.dark, .dark {
 
 @layer utilities {
   /* ------------------------------------------------------------- */
-  /* INSIGHTFORGE SIGNATURE BUTTONS                                */
+  /* INSIGHTFORGE LIQUID GLASS SIGNATURE BUTTONS                   */
   /* ------------------------------------------------------------- */
 
-  /* Primary CTA Button */
+  /* Primary Liquid Glass CTA Button */
   .button-primary {
-    background-color: var(--primary);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-active) 100%);
     color: var(--on-primary);
     font-family: var(--font-sans);
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 1.0;
-    border-radius: 8px;
-    padding: 12px 20px;
-    height: 40px;
+    border-radius: 10px;
+    padding: 12px 22px;
+    height: 42px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    border: none;
+    border: 1px solid rgba(255, 255, 255, 0.25);
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 6px 20px -4px rgba(204, 120, 92, 0.4);
+    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .button-primary::after {
+    content: "";
+    position: absolute;
+    top: 0; left: -100%;
+    width: 60%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.6s ease;
+  }
+
+  .button-primary:hover::after {
+    left: 140%;
   }
 
   .button-primary:hover {
-    background-color: var(--primary-active);
-    transform: translateY(-1px);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.6), 0 10px 24px -4px rgba(204, 120, 92, 0.5);
   }
 
   .button-primary:active {
-    transform: translateY(0);
+    transform: translateY(0) scale(0.99);
   }
 
-  /* Cream Secondary Button with Hairline Border */
+  /* Liquid Glass Secondary Button */
   .button-secondary {
-    background-color: var(--canvas);
+    background: rgba(255, 255, 255, 0.55);
     color: var(--ink);
     font-family: var(--font-sans);
     font-size: 14px;
     font-weight: 500;
     line-height: 1.0;
-    border-radius: 8px;
+    border-radius: 10px;
     padding: 12px 20px;
-    height: 40px;
+    height: 42px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
     border: 1px solid var(--hairline);
     cursor: pointer;
-    transition: background-color 0.2s ease, border-color 0.2s ease;
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6), 0 4px 14px rgba(0, 0, 0, 0.05);
+    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .dark .button-secondary {
+    background: rgba(36, 35, 32, 0.65);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15), 0 4px 14px rgba(0, 0, 0, 0.3);
   }
 
   .button-secondary:hover {
-    background-color: var(--surface-soft);
-    border-color: var(--muted-soft);
+    background: var(--surface-soft);
+    border-color: var(--primary);
+    transform: translateY(-1px);
   }
 
   /* Secondary Button on Dark Navy Cards */
   .button-secondary-on-dark {
-    background-color: var(--surface-dark-elevated);
+    background: rgba(255, 255, 255, 0.08);
     color: var(--on-dark);
     font-family: var(--font-sans);
     font-size: 14px;
     font-weight: 500;
     line-height: 1.0;
-    border-radius: 8px;
+    border-radius: 10px;
     padding: 12px 20px;
-    height: 40px;
+    height: 42px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.18);
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
+    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .button-secondary-on-dark:hover {
-    background-color: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.35);
+    transform: translateY(-1px);
   }
 
-  /* Inverted Button inside Coral Callout Cards */
+  /* Inverted Liquid Glass Button inside Coral Callout Cards */
   .button-on-coral {
-    background-color: var(--canvas);
-    color: var(--ink);
+    background: rgba(255, 255, 255, 0.9);
+    color: #141413;
     font-family: var(--font-sans);
     font-size: 14px;
-    font-weight: 500;
-    border-radius: 8px;
+    font-weight: 600;
+    border-radius: 10px;
     padding: 12px 24px;
     height: 44px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    border: none;
+    border: 1px solid rgba(255, 255, 255, 0.5);
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.15);
+    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .button-on-coral:hover {
-    background-color: var(--surface-soft);
+    background: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.25);
   }
 
   .button-pricing-pill {
-    background-color: var(--primary);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-active) 100%);
     color: var(--on-primary);
     font-family: var(--font-sans);
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     border-radius: 9999px;
     padding: 12px 24px;
-    height: 40px;
+    height: 42px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border: none;
+    border: 1px solid rgba(255, 255, 255, 0.3);
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    backdrop-filter: blur(12px);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 4px 16px rgba(204, 120, 92, 0.3);
+    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .button-pricing-pill:hover {
-    background-color: var(--primary-active);
+    transform: translateY(-1px);
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.6), 0 8px 20px rgba(204, 120, 92, 0.45);
   }
 
   /* Inline Coral Text Link */
