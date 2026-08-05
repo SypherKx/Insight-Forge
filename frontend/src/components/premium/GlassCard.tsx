@@ -15,17 +15,17 @@ export function GlassCard({
   hover = false,
 }: GlassCardProps) {
   const variantStyles = {
-    canvas: "bg-white border border-slate-200 text-slate-900 rounded-xl p-6 shadow-sm",
-    soft: "bg-slate-50 border border-slate-200 text-slate-900 rounded-xl p-6",
-    dark: "bg-slate-900 text-white border border-slate-800 rounded-xl p-8 shadow-xl",
-    coral: "bg-rose-900 text-white rounded-xl p-8 shadow-lg",
+    canvas: "bg-[var(--surface-card)] border border-[var(--hairline)] text-[var(--ink)] rounded-xl p-6 shadow-sm",
+    soft: "bg-[var(--surface-soft)] border border-[var(--hairline)] text-[var(--ink)] rounded-xl p-6",
+    dark: "bg-[var(--surface-dark)] text-[var(--on-dark)] border border-[var(--hairline)] rounded-xl p-8 shadow-xl",
+    coral: "bg-[var(--primary)] text-white rounded-xl p-8 shadow-lg",
     forest: "bg-emerald-950 text-white rounded-xl p-8 shadow-lg",
-    cream: "bg-amber-50 text-slate-900 border border-amber-200 rounded-xl p-6",
-    peach: "bg-orange-100 text-slate-900 border border-orange-200 rounded-xl p-6",
-    mint: "bg-emerald-100 text-slate-900 border border-emerald-200 rounded-xl p-6",
-    yellow: "bg-amber-100 text-slate-900 border border-amber-200 rounded-xl p-6",
-    violet: "bg-purple-900 text-white rounded-xl p-8 shadow-lg",
-    cyan: "bg-sky-900 text-white rounded-xl p-8 shadow-lg",
+    cream: "bg-[var(--surface-card)] text-[var(--ink)] border border-[var(--hairline)] rounded-xl p-6",
+    peach: "bg-[var(--surface-soft)] text-[var(--ink)] border border-[var(--hairline)] rounded-xl p-6",
+    mint: "bg-emerald-950/40 text-[var(--ink)] border border-emerald-800/40 rounded-xl p-6",
+    yellow: "bg-amber-950/40 text-[var(--ink)] border border-amber-800/40 rounded-xl p-6",
+    violet: "bg-purple-950/40 text-white rounded-xl p-8 shadow-lg",
+    cyan: "bg-sky-950/40 text-white rounded-xl p-8 shadow-lg",
   };
 
   return (
