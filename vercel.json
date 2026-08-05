@@ -1,5 +1,7 @@
 {
-  "buildCommand": "cd frontend && npm install && npx vite build --config vite.config.vercel.ts",
+  "framework": null,
+  "installCommand": "cd frontend && npm install",
+  "buildCommand": "cd frontend && npx vite build --config vite.config.vercel.ts",
   "outputDirectory": "frontend/dist",
   "rewrites": [
     {

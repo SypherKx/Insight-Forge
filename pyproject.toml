@@ -43,9 +43,6 @@ dependencies = [
     "scipy>=1.10.0",
 ]
 
-[tool.vercel]
-entrypoint = "api.index:app"
-
 [project.optional-dependencies]
 dev = [
     "pytest>=7.4.0",
