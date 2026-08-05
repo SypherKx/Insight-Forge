@@ -540,7 +540,7 @@ class TestIntegration:
         np.random.seed(42)
 
         # 10,000 data points
-        dates = pd.date_range('2024-01-01', periods=10000, freq='H')
+        dates = pd.date_range('2024-01-01', periods=10000, freq='h')
         data = np.random.normal(100, 10, 10000)
 
         # Add a few anomalies

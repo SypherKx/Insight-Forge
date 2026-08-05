@@ -26,6 +26,11 @@ classifiers = [
 keywords = ["data-ingestion", "csv", "pandas", "anomaly-detection", "machine-learning"]
 
 dependencies = [
+    "fastapi>=0.104.0",
+    "uvicorn>=0.24.0",
+    "python-multipart>=0.0.6",
+    "httpx>=0.25.0",
+    "statsmodels>=0.14.0",
     "pandas>=2.0.0",
     "numpy>=1.24.0",
     "pydantic>=2.0.0",
@@ -37,6 +42,9 @@ dependencies = [
     "chardet>=5.0.0",
     "scipy>=1.10.0",
 ]
+
+[tool.vercel]
+entrypoint = "backend.main:app"
 
 [project.optional-dependencies]
 dev = [

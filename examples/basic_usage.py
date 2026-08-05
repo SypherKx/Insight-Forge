@@ -29,7 +29,7 @@ def create_sample_csv(filepath: Path) -> None:
     np.random.seed(42)
 
     # Generate sample business data
-    dates = pd.date_range("2025-01-01", periods=1000, freq="H")
+    dates = pd.date_range("2025-01-01", periods=1000, freq="h")
     df = pd.DataFrame({
         "timestamp": dates,
         "revenue": np.random.uniform(1000, 5000, 1000),

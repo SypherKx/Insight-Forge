@@ -36,7 +36,7 @@ def sample_data():
     """Generate sample dataset for testing."""
     np.random.seed(42)
     n = 200
-    dates = pd.date_range('2025-01-01', periods=n, freq='H')
+    dates = pd.date_range('2025-01-01', periods=n, freq='h')
 
     data = pd.DataFrame({
         'date': dates,
@@ -389,7 +389,7 @@ def run_integration_test():
 
     # Create realistic data
     np.random.seed(42)
-    dates = pd.date_range('2025-01-01', periods=500, freq='H')
+    dates = pd.date_range('2025-01-01', periods=500, freq='h')
 
     regions = ['US-East', 'US-West', 'EU', 'APAC']
     products = ['Basic', 'Premium', 'Enterprise']

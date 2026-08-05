@@ -23,7 +23,7 @@ def test_data_dir():
 def sample_business_data():
     """Create sample business dataset for testing."""
     np.random.seed(42)
-    dates = pd.date_range("2025-01-01", periods=1000, freq="H")
+    dates = pd.date_range("2025-01-01", periods=1000, freq="h")
     return pd.DataFrame({
         "timestamp": dates,
         "sensor_id": np.random.choice(["S1", "S2", "S3", "S4"], 1000),

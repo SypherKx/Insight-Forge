@@ -1,4 +1,9 @@
-# InsightForge AI - Ingestion Service Dependencies
+# Web Framework & Backend
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+python-multipart>=0.0.6
+httpx>=0.25.0
+statsmodels>=0.14.0
 
 # Core data processing
 pandas>=2.0.0

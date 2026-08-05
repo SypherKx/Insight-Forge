@@ -272,7 +272,7 @@ def quick_analysis_demo():
     print()
 
     # Create simple dataset
-    dates = pd.date_range('2025-01-01', periods=1000, freq='H')
+    dates = pd.date_range('2025-01-01', periods=1000, freq='h')
     data = pd.DataFrame({
         'date': dates,
         'revenue': np.random.normal(10000, 1000, 1000),
