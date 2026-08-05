@@ -16,7 +16,10 @@ class FileStore:
 
     def __init__(self, upload_dir: str = "./uploads"):
         self.upload_dir = Path(upload_dir)
-        self.upload_dir.mkdir(parents=True, exist_ok=True)
+        try:
+            self.upload_dir.mkdir(parents=True, exist_ok=True)
+        except Exception as e:
+            logger.warning(f"Could not create upload directory {self.upload_dir}: {e}")
 
     def save_upload(self, file_content: bytes, dataset_id: str, filename: str) -> str:
         """

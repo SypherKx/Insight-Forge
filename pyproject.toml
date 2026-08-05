@@ -63,7 +63,7 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["ingestion*"]
+include = ["*"]
 
 [tool.black]
 line-length = 100

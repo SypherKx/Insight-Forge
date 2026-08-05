@@ -4,6 +4,7 @@ InsightForge AI — FastAPI Backend
 Main application entry point.
 """
 
+import os
 import sys
 import logging
 from pathlib import Path
@@ -12,8 +13,12 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-# Add src directory to path
+# Add project root and src directory to path for Vercel imports
+ROOT_DIR = str(Path(__file__).resolve().parent.parent)
 SRC_DIR = str(Path(__file__).resolve().parent.parent / "src")
+
+if ROOT_DIR not in sys.path:
+    sys.path.insert(0, ROOT_DIR)
 if SRC_DIR not in sys.path:
     sys.path.insert(0, SRC_DIR)
 
@@ -33,9 +38,12 @@ async def lifespan(app: FastAPI):
     """Application lifespan — startup and shutdown."""
     # Startup
     logger.info(f"Starting {settings.app_name} v{settings.app_version}")
-    settings.ensure_dirs()
-    init_db(settings.database_url)
-    logger.info("Database initialized")
+    try:
+        settings.ensure_dirs()
+        init_db(settings.database_url)
+        logger.info("Database initialized successfully")
+    except Exception as e:
+        logger.error(f"Startup initialization error: {e}", exc_info=True)
     yield
     # Shutdown
     logger.info("Shutting down")

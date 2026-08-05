@@ -122,23 +122,37 @@ _engine = None
 _SessionLocal = None
 
 
-def init_db(database_url: str = "sqlite:///./insightforge.db"):
+def init_db(database_url: str = None):
     """Initialize database and create tables."""
     global _engine, _SessionLocal
+
+    if database_url is None:
+        database_url = "sqlite:////tmp/insightforge.db" if (os.getenv("VERCEL") or os.getenv("AWS_LAMBDA_FUNCTION_NAME")) else "sqlite:///./insightforge.db"
 
     connect_args = {}
     if database_url.startswith("sqlite"):
         connect_args["check_same_thread"] = False
 
-    _engine = create_engine(
-        database_url,
-        connect_args=connect_args,
-        echo=False,
-    )
-    _SessionLocal = sessionmaker(bind=_engine, autocommit=False, autoflush=False)
+    try:
+        _engine = create_engine(
+            database_url,
+            connect_args=connect_args,
+            echo=False,
+        )
+        _SessionLocal = sessionmaker(bind=_engine, autocommit=False, autoflush=False)
+        Base.metadata.create_all(bind=_engine)
+    except Exception:
+        # Fallback to /tmp or memory
+        fallback_url = "sqlite:////tmp/insightforge.db"
+        try:
+            _engine = create_engine(fallback_url, connect_args=connect_args, echo=False)
+            _SessionLocal = sessionmaker(bind=_engine, autocommit=False, autoflush=False)
+            Base.metadata.create_all(bind=_engine)
+        except Exception:
+            _engine = create_engine("sqlite:///:memory:", connect_args=connect_args, echo=False)
+            _SessionLocal = sessionmaker(bind=_engine, autocommit=False, autoflush=False)
+            Base.metadata.create_all(bind=_engine)
 
-    # Create tables
-    Base.metadata.create_all(bind=_engine)
     return _engine
 
 
