@@ -47,6 +47,8 @@ export function Sidebar() {
   });
 
   useEffect(() => {
+    let intervalId: any = null;
+
     async function fetchHealth() {
       try {
         const res = await checkHealth();
@@ -61,12 +63,16 @@ export function Sidebar() {
           rag: "down",
           detector: "down",
         });
+        // Clear polling interval on connection error to keep UI snappy
+        if (intervalId) clearInterval(intervalId);
       }
     }
 
     fetchHealth();
-    const interval = setInterval(fetchHealth, 30000);
-    return () => clearInterval(interval);
+    intervalId = setInterval(fetchHealth, 60000);
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
   }, []);
 
   return (
