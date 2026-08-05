@@ -33,9 +33,9 @@ export function SectionHeading({
       )}
     >
       {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
-      <h2 className="display-md text-ink font-normal">{title}</h2>
+      <h2 className="display-md text-[var(--ink)] font-normal">{title}</h2>
       {description && (
-        <p className="body-md text-body text-pretty">{description}</p>
+        <p className="body-md text-[var(--body)] text-pretty">{description}</p>
       )}
     </div>
   );

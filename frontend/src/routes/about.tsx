@@ -57,30 +57,30 @@ const sections = [
 function AboutPage() {
   return (
     <MarketingLayout>
-      <section className="bg-canvas section-rhythm border-b border-hairline">
+      <section className="bg-[var(--canvas)] section-rhythm border-b border-[var(--hairline)] transition-colors duration-300">
         <div className="mx-auto max-w-5xl px-6 text-center">
           <Eyebrow className="justify-center">HEALTHCARE & EDUCATION MISSION</Eyebrow>
-          <h1 className="display-lg text-ink mt-4 font-normal">
+          <h1 className="display-lg text-[var(--ink)] mt-4 font-normal">
             Trustworthy, cited RAG AI for medicine & learning.
           </h1>
-          <p className="body-md text-body max-w-2xl mx-auto mt-4">
+          <p className="body-md text-[var(--body)] max-w-2xl mx-auto mt-4">
             Connecting statistical vital anomaly signals with dense FAISS vector document retrieval across clinical guidelines and course materials.
           </p>
         </div>
       </section>
 
-      <section className="bg-canvas section-rhythm border-b border-hairline">
+      <section className="bg-[var(--canvas)] section-rhythm border-b border-[var(--hairline)] transition-colors duration-300">
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid gap-6 md:grid-cols-3">
             {pillars.map((p) => {
               const Icon = p.icon;
               return (
-                <div key={p.title} className="bg-surface-soft border border-hairline rounded-lg p-8">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-md bg-canvas border border-hairline text-[#1b61c9]">
+                <div key={p.title} className="bg-[var(--surface-soft)] border border-[var(--hairline)] rounded-xl p-8 shadow-sm transition-colors duration-300">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--surface-card)] border border-[var(--hairline)] text-[var(--primary)]">
                     <Icon className="h-5 w-5" />
                   </div>
-                  <h3 className="title-md text-ink mt-6 font-semibold">{p.title}</h3>
-                  <p className="body-md text-body mt-3">{p.body}</p>
+                  <h3 className="title-md text-[var(--ink)] mt-6 font-semibold">{p.title}</h3>
+                  <p className="body-md text-[var(--body)] mt-3">{p.body}</p>
                 </div>
               );
             })}
@@ -88,21 +88,21 @@ function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-canvas section-rhythm border-b border-hairline">
+      <section className="bg-[var(--canvas)] section-rhythm border-b border-[var(--hairline)] transition-colors duration-300">
         <div className="mx-auto max-w-4xl px-6 flex flex-col gap-16">
           {sections.map((s) => (
             <div key={s.title}>
               <Eyebrow>{s.eyebrow}</Eyebrow>
-              <h2 className="display-md text-ink mt-3 font-normal">{s.title}</h2>
-              <p className="body-md text-body mt-4">{s.body}</p>
+              <h2 className="display-md text-[var(--ink)] mt-3 font-normal">{s.title}</h2>
+              <p className="body-md text-[var(--body)] mt-4">{s.body}</p>
             </div>
           ))}
         </div>
       </section>
 
-      <section className="bg-canvas section-rhythm">
+      <section className="bg-[var(--canvas)] section-rhythm transition-colors duration-300">
         <div className="mx-auto max-w-5xl px-6 text-center">
-          <div className="bg-surface-strong rounded-lg p-12">
+          <div className="bg-[var(--surface-card)] border border-[var(--hairline)] rounded-2xl p-12 shadow-md">
             <SectionHeading
               align="center"
               eyebrow="GET STARTED"

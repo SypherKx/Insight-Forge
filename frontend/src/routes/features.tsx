@@ -77,20 +77,20 @@ function FeaturesPage() {
   return (
     <MarketingLayout>
       {/* PAGE HEADER */}
-      <section className="bg-canvas section-rhythm border-b border-hairline">
+      <section className="bg-[var(--canvas)] section-rhythm border-b border-[var(--hairline)] transition-colors duration-300">
         <div className="mx-auto max-w-5xl px-6 text-center">
           <Eyebrow className="justify-center">HEALTHCARE & EDUCATION RAG ARCHITECTURE</Eyebrow>
-          <h1 className="display-lg text-ink mt-4 font-normal">
+          <h1 className="display-lg text-[var(--ink)] mt-4 font-normal">
             Engineered for medical precision & academic clarity.
           </h1>
-          <p className="body-md text-body max-w-2xl mx-auto mt-4">
+          <p className="body-md text-[var(--body)] max-w-2xl mx-auto mt-4">
             Four specialized modules built to accelerate medical research, assist clinical decision-making, and streamline academic document search.
           </p>
         </div>
       </section>
 
       {/* DETAILED MODULE SECTIONS */}
-      <section className="bg-canvas section-rhythm border-b border-hairline">
+      <section className="bg-[var(--canvas)] section-rhythm border-b border-[var(--hairline)] transition-colors duration-300">
         <div className="mx-auto max-w-7xl px-6 flex flex-col gap-20">
           {capabilities.map((c, i) => {
             const Icon = c.icon;
@@ -105,34 +105,34 @@ function FeaturesPage() {
               >
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="caption uppercase font-semibold text-muted">{c.product}</span>
+                    <span className="caption uppercase font-semibold text-[var(--primary)]">{c.product}</span>
                   </div>
-                  <h2 className="display-md text-ink mt-3 font-normal">{c.title}</h2>
-                  <p className="body-md text-body mt-4">{c.body}</p>
+                  <h2 className="display-md text-[var(--ink)] mt-3 font-normal">{c.title}</h2>
+                  <p className="body-md text-[var(--body)] mt-4">{c.body}</p>
 
                   <ul className="mt-6 grid gap-3">
                     {c.bullets.map((b) => (
-                      <li key={b} className="flex items-center gap-3 body-md text-body">
-                        <Check className="h-4 w-4 text-[#006400] shrink-0" />
+                      <li key={b} className="flex items-center gap-3 body-md text-[var(--body-strong)]">
+                        <Check className="h-4 w-4 text-[var(--success)] shrink-0" />
                         <span>{b}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="bg-surface-soft border border-hairline rounded-lg p-8 flex flex-col justify-between min-h-[280px]">
-                  <div className="flex items-center justify-between border-b border-hairline pb-4">
-                    <span className="caption font-semibold text-ink">{c.product}</span>
-                    <Icon className="h-5 w-5 text-[#1b61c9]" />
+                <div className="bg-[var(--surface-soft)] border border-[var(--hairline)] rounded-xl p-8 flex flex-col justify-between min-h-[280px] shadow-sm transition-colors duration-300">
+                  <div className="flex items-center justify-between border-b border-[var(--hairline)] pb-4">
+                    <span className="caption font-semibold text-[var(--ink)]">{c.product}</span>
+                    <Icon className="h-5 w-5 text-[var(--primary)]" />
                   </div>
                   <div className="my-8 flex items-center justify-center">
-                    <div className="flex h-20 w-20 items-center justify-center rounded-xl bg-canvas border border-hairline shadow-sm">
-                      <Icon className="h-10 w-10 text-[#1b61c9]" />
+                    <div className="flex h-20 w-20 items-center justify-center rounded-xl bg-[var(--surface-card)] border border-[var(--hairline)] shadow-sm">
+                      <Icon className="h-10 w-10 text-[var(--primary)]" />
                     </div>
                   </div>
-                  <div className="flex items-center justify-between text-xs text-muted font-mono">
+                  <div className="flex items-center justify-between text-xs text-[var(--muted)] font-mono">
                     <span>FAISS INDEX: ACTIVE</span>
-                    <span className="text-[#006400] font-semibold">● READY</span>
+                    <span className="text-[var(--success)] font-semibold">● READY</span>
                   </div>
                 </div>
               </div>
@@ -142,9 +142,9 @@ function FeaturesPage() {
       </section>
 
       {/* CTA BANNER */}
-      <section className="bg-canvas section-rhythm">
+      <section className="bg-[var(--canvas)] section-rhythm transition-colors duration-300">
         <div className="mx-auto max-w-5xl px-6 text-center">
-          <div className="bg-surface-strong rounded-lg p-12">
+          <div className="bg-[var(--surface-card)] border border-[var(--hairline)] rounded-2xl p-12 shadow-md">
             <SectionHeading
               align="center"
               eyebrow="GET STARTED WITH HEALTHCARE RAG"

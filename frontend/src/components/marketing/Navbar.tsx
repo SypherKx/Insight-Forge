@@ -1,6 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { ArrowRight, Sun, Moon, Sparkles } from "lucide-react";
+import { ArrowRight, Sun, Moon } from "lucide-react";
 import { PremiumButton } from "@/components/premium/PremiumButton";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 
@@ -42,14 +43,9 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 h-16 w-full border-b border-[var(--hairline)] bg-[var(--canvas)]/90 backdrop-blur-md transition-colors duration-300">
       <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-6">
-        {/* Custom Brand Logo */}
-        <Link to="/" className="flex items-center gap-2.5">
-          <div className="flex h-7 w-7 items-center justify-center rounded-md bg-[var(--primary)] text-white font-bold shadow-sm">
-            <Sparkles className="h-4 w-4" />
-          </div>
-          <span className="text-lg font-serif font-medium tracking-tight text-[var(--ink)]">
-            InsightForge <span className="font-sans text-xs text-[var(--primary)] font-semibold uppercase">AI</span>
-          </span>
+        {/* Custom Vector Brand Logo */}
+        <Link to="/">
+          <BrandLogo size="md" />
         </Link>
 
         {/* Primary Horizontal Menu */}
@@ -71,19 +67,16 @@ export function Navbar() {
           })}
         </nav>
 
-        {/* Theme Toggle & Primary Coral Action */}
+        {/* Theme Toggle & Primary Action */}
         <div className="flex items-center gap-3">
           <button
             onClick={toggleDarkMode}
-            className="flex h-9 w-9 items-center justify-center rounded-md border border-[var(--hairline)] bg-[var(--surface-soft)] text-[var(--ink)] hover:bg-[var(--surface-card)] transition"
+            className="flex h-9 w-9 items-center justify-center rounded-md border border-[var(--hairline)] bg-[var(--surface-soft)] text-[var(--ink)] hover:bg-[var(--surface-card)] transition cursor-pointer"
             title="Toggle Light / Dark Mode"
           >
             {darkMode ? <Sun className="h-4 w-4 text-[var(--accent-amber)]" /> : <Moon className="h-4 w-4 text-[var(--muted)]" />}
           </button>
 
-          <Link to="/app/dashboard" className="hidden sm:inline-block">
-            <button className="button-secondary">Sign in</button>
-          </Link>
           <Link to="/app/upload">
             <PremiumButton variant="primary" size="sm">
               Try InsightForge <ArrowRight className="ml-1 h-3.5 w-3.5" />

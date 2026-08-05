@@ -1,5 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, Upload, AlertOctagon, Search, ArrowLeft, Activity, Sparkles } from "lucide-react";
+import { LayoutDashboard, Upload, AlertOctagon, Search, ArrowLeft, Activity } from "lucide-react";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { checkHealth } from "../../services/api";
@@ -78,14 +79,8 @@ export function Sidebar() {
   return (
     <aside className="hidden md:flex w-[260px] shrink-0 flex-col border-r border-[var(--hairline)] bg-[var(--canvas)] transition-colors duration-300">
       {/* Brand Header */}
-      <Link to="/" className="flex items-center gap-3 border-b border-[var(--hairline)] px-6 py-5">
-        <div className="flex h-7 w-7 items-center justify-center rounded-md bg-[var(--primary)] text-white font-bold shadow-sm">
-          <Sparkles className="h-4 w-4" />
-        </div>
-        <div className="flex items-baseline gap-1.5">
-          <span className="text-base font-bold tracking-tight text-[var(--ink)]">InsightForge</span>
-          <span className="text-xs font-semibold text-[var(--primary)]">AI</span>
-        </div>
+      <Link to="/" className="flex items-center border-b border-[var(--hairline)] px-6 py-5">
+        <BrandLogo size="md" />
       </Link>
 
       {/* Navigation List */}

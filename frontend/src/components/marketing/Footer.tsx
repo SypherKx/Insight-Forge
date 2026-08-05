@@ -1,18 +1,15 @@
 import { Link } from "@tanstack/react-router";
-import { Sparkles } from "lucide-react";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 
 export function Footer() {
   return (
     <footer className="bg-[var(--surface-dark)] text-[var(--on-dark)] border-t border-white/10 py-16 transition-colors duration-300">
       <div className="mx-auto max-w-7xl px-6">
-        {/* Custom Brand Logo */}
-        <div className="flex items-center gap-2.5 mb-12">
-          <div className="flex h-7 w-7 items-center justify-center rounded-md bg-[var(--primary)] text-white font-bold">
-            <Sparkles className="h-4 w-4" />
-          </div>
-          <span className="text-xl font-serif font-medium tracking-tight text-[var(--on-dark)]">
-            InsightForge <span className="font-sans text-xs text-[var(--primary)] uppercase font-semibold">AI</span>
-          </span>
+        {/* Custom Vector Brand Logo */}
+        <div className="mb-12">
+          <Link to="/">
+            <BrandLogo size="lg" />
+          </Link>
         </div>
 
         {/* 4-Column Directory Grid */}
