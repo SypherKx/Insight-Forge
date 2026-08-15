@@ -3,50 +3,53 @@ import type { SVGProps } from "react";
 export function BrandLogoIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
-      viewBox="0 0 32 32"
+      viewBox="0 0 36 36"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={props.className || "h-7 w-7"}
       {...props}
     >
       <defs>
-        <linearGradient id="insightForgeGrad" x1="2" y1="2" x2="30" y2="30" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#cc785c" />
-          <stop offset="0.5" stopColor="#e8a55a" />
-          <stop offset="1" stopColor="#5db8a6" />
+        <linearGradient id="mintCyanGrad" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#00f0ff" />
+          <stop offset="0.6" stopColor="#c1fbd4" />
+          <stop offset="1" stopColor="#a3f7be" />
         </linearGradient>
-        <linearGradient id="coreGlow" x1="10" y1="10" x2="22" y2="22" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#ffffff" stopOpacity="0.95" />
-          <stop offset="1" stopColor="#ffe6dc" stopOpacity="0.8" />
-        </linearGradient>
+        <filter id="mintGlow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="1.5" result="blur" />
+          <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
       </defs>
 
-      {/* Rounded Diamond Badge Background */}
-      <rect x="2" y="2" width="28" height="28" rx="8" fill="url(#insightForgeGrad)" />
+      {/* Rounded Dark Container */}
+      <rect x="1" y="1" width="34" height="34" rx="9" fill="#0a0a0a" stroke="rgba(255,255,255,0.15)" strokeWidth="1.2" />
 
-      {/* Interlocking RAG Knowledge Layers & Medical Compass Vector */}
+      {/* Abstract Neural Diamond Crystal */}
       <path
-        d="M16 7L23 11.5V20.5L16 25L9 20.5V11.5L16 7Z"
-        stroke="white"
+        d="M18 6L25 13L18 20L11 13L18 6Z"
+        stroke="url(#mintCyanGrad)"
         strokeWidth="1.8"
         strokeLinejoin="round"
-        fill="none"
-        opacity="0.9"
+        fill="rgba(193, 251, 212, 0.08)"
+        filter="url(#mintGlow)"
       />
       
-      {/* Central Flame / Insight Core */}
-      <path
-        d="M16 10C16 10 12.5 14 12.5 16.8C12.5 18.8 14.1 20.5 16 20.5C17.9 20.5 19.5 18.8 19.5 16.8C19.5 14 16 10 16 10Z"
-        fill="url(#coreGlow)"
-      />
+      {/* Inner Facet Lines */}
+      <path d="M11 13H25" stroke="url(#mintCyanGrad)" strokeWidth="1.2" opacity="0.8" />
+      <path d="M18 6V20" stroke="url(#mintCyanGrad)" strokeWidth="1.2" opacity="0.8" />
 
-      {/* Neural Node Points */}
-      <circle cx="16" cy="7" r="1.5" fill="white" />
-      <circle cx="23" cy="11.5" r="1.5" fill="white" />
-      <circle cx="23" cy="20.5" r="1.5" fill="white" />
-      <circle cx="16" cy="25" r="1.5" fill="white" />
-      <circle cx="9" cy="20.5" r="1.5" fill="white" />
-      <circle cx="9" cy="11.5" r="1.5" fill="white" />
+      {/* Neural Node Sparks */}
+      <circle cx="18" cy="6" r="1.5" fill="#00f0ff" />
+      <circle cx="25" cy="13" r="1.5" fill="#c1fbd4" />
+      <circle cx="18" cy="20" r="1.5" fill="#a3f7be" />
+      <circle cx="11" cy="13" r="1.5" fill="#c1fbd4" />
+
+      {/* Anvil Base Silhouette */}
+      <path
+        d="M10 24H26C26 24 25 28 27 28H9C11 28 10 24 10 24Z"
+        fill="url(#mintCyanGrad)"
+      />
+      <rect x="12" y="22" width="12" height="2" rx="1" fill="#c1fbd4" />
     </svg>
   );
 }
@@ -54,7 +57,7 @@ export function BrandLogoIcon(props: SVGProps<SVGSVGElement>) {
 export function BrandLogo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
   const iconSizes = {
     sm: "h-6 w-6",
-    md: "h-7 w-7",
+    md: "h-7.5 w-7.5",
     lg: "h-9 w-9",
   };
 
@@ -65,11 +68,13 @@ export function BrandLogo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
   };
 
   return (
-    <div className="flex items-center gap-2.5 select-none">
-      <BrandLogoIcon className={`${iconSizes[size]} shrink-0 shadow-sm`} />
-      <span className={`${textSizes[size]} font-serif font-semibold tracking-tight text-[var(--ink)]`}>
-        InsightForge{" "}
-        <span className="font-sans text-xs font-bold text-[var(--primary)] uppercase tracking-wider ml-0.5">
+    <div className="flex items-center gap-2.5 select-none group cursor-pointer">
+      <div className="relative">
+        <BrandLogoIcon className={`${iconSizes[size]} shrink-0 transition-transform duration-300 group-hover:scale-105`} />
+      </div>
+      <span className={`${textSizes[size]} font-display font-semibold tracking-tight text-[var(--ink)] flex items-center gap-1`}>
+        InsightForge
+        <span className="font-mono text-[10px] font-bold text-[#000000] bg-[#c1fbd4] px-1.5 py-0.5 rounded-full uppercase tracking-wider ml-0.5">
           AI
         </span>
       </span>
