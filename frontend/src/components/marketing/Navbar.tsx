@@ -43,10 +43,8 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 h-20 w-full border-b border-[var(--hairline)] bg-[var(--canvas)]/90 backdrop-blur-md transition-colors duration-300">
       <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-8">
-        {/* Brand Logo */}
-        <Link to="/">
-          <BrandLogo size="md" />
-        </Link>
+        {/* Brand Logo (Navigates to /) */}
+        <BrandLogo size="md" />
 
         {/* Primary Navigation Menu */}
         <nav className="hidden items-center gap-10 md:flex">

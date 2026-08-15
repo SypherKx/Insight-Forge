@@ -82,9 +82,9 @@ export function Sidebar() {
   return (
     <aside className="hidden md:flex w-[260px] shrink-0 flex-col border-r border-[var(--hairline)] bg-[var(--surface-card)] transition-colors duration-300 text-[var(--ink)]">
       {/* Brand Header */}
-      <Link to="/" className="flex items-center border-b border-[var(--hairline)] px-6 py-5">
+      <div className="flex items-center border-b border-[var(--hairline)] px-6 py-5">
         <BrandLogo size="md" />
-      </Link>
+      </div>
 
       {/* Navigation List */}
       <div className="flex-1 px-4 py-6">

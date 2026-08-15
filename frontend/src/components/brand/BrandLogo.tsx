@@ -1,4 +1,5 @@
 import type { SVGProps } from "react";
+import { Link } from "@tanstack/react-router";
 
 export function BrandLogoIcon(props: SVGProps<SVGSVGElement>) {
   return (
@@ -54,7 +55,7 @@ export function BrandLogoIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-export function BrandLogo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
+export function BrandLogo({ size = "md", disableLink = false }: { size?: "sm" | "md" | "lg"; disableLink?: boolean }) {
   const iconSizes = {
     sm: "h-6 w-6",
     md: "h-7.5 w-7.5",
@@ -67,7 +68,7 @@ export function BrandLogo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
     lg: "text-2xl",
   };
 
-  return (
+  const content = (
     <div className="flex items-center gap-2.5 select-none group cursor-pointer">
       <div className="relative">
         <BrandLogoIcon className={`${iconSizes[size]} shrink-0 transition-transform duration-300 group-hover:scale-105`} />
@@ -79,5 +80,15 @@ export function BrandLogo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
         </span>
       </span>
     </div>
+  );
+
+  if (disableLink) {
+    return content;
+  }
+
+  return (
+    <Link to="/" className="inline-flex items-center no-underline hover:opacity-90 transition-opacity">
+      {content}
+    </Link>
   );
 }
