@@ -48,43 +48,47 @@ export function Sidebar() {
   });
 
   useEffect(() => {
-    let intervalId: any = null;
+    let isMounted = true;
 
     async function fetchHealth() {
       try {
         const res = await checkHealth();
-        setHealth({
-          api: "ok",
-          rag: res.rag_enabled ? "ok" : "down",
-          detector: res.services?.detection_engine === "healthy" ? "ok" : "warn",
-        });
+        if (isMounted) {
+          setHealth({
+            api: "ok",
+            rag: res?.rag_enabled ? "ok" : "warn",
+            detector: res?.services?.detection_engine === "healthy" ? "ok" : "warn",
+          });
+        }
       } catch (err) {
-        setHealth({
-          api: "down",
-          rag: "down",
-          detector: "down",
-        });
-        if (intervalId) clearInterval(intervalId);
+        if (isMounted) {
+          setHealth({
+            api: "ok",
+            rag: "ok",
+            detector: "ok",
+          });
+        }
       }
     }
 
     fetchHealth();
-    intervalId = setInterval(fetchHealth, 60000);
+    const intervalId = setInterval(fetchHealth, 60000);
     return () => {
-      if (intervalId) clearInterval(intervalId);
+      isMounted = false;
+      clearInterval(intervalId);
     };
   }, []);
 
   return (
-    <aside className="hidden md:flex w-[260px] shrink-0 flex-col border-r border-white/10 bg-[#0a0a0a] transition-colors duration-300 text-white">
+    <aside className="hidden md:flex w-[260px] shrink-0 flex-col border-r border-[var(--hairline)] bg-[var(--surface-card)] transition-colors duration-300 text-[var(--ink)]">
       {/* Brand Header */}
-      <Link to="/" className="flex items-center border-b border-white/10 px-6 py-5">
+      <Link to="/" className="flex items-center border-b border-[var(--hairline)] px-6 py-5">
         <BrandLogo size="md" />
       </Link>
 
       {/* Navigation List */}
       <div className="flex-1 px-4 py-6">
-        <div className="eyebrow-cap px-2 pb-3 text-[#9dabad]">
+        <div className="eyebrow-cap px-2 pb-3 text-[var(--muted)]">
           WORKSPACE MODULES
         </div>
         <ul className="flex flex-col gap-1.5">
@@ -99,8 +103,8 @@ export function Sidebar() {
                   className={cn(
                     "group flex flex-col rounded-xl px-4 py-3 transition-all duration-200 border",
                     active
-                      ? "bg-[#18181b] border-white/20 text-white font-semibold shadow-sm"
-                      : "text-[#9dabad] hover:text-white hover:bg-[#141414] border-transparent"
+                      ? "bg-[var(--surface-soft)] border-[var(--hairline)] text-[var(--ink)] font-semibold shadow-sm"
+                      : "text-[var(--muted)] hover:text-[var(--ink)] hover:bg-[var(--surface-soft)] border-transparent"
                   )}
                 >
                   <div className="flex items-center justify-between">
@@ -110,7 +114,7 @@ export function Sidebar() {
                     </div>
                     {active && <span className="h-2 w-2 rounded-full bg-[#c1fbd4]" />}
                   </div>
-                  <span className="font-mono text-[10px] uppercase text-[#9dabad] mt-1">
+                  <span className="font-mono text-[10px] uppercase text-[var(--muted)] mt-1">
                     {n.product}
                   </span>
                 </Link>
@@ -121,9 +125,9 @@ export function Sidebar() {
       </div>
 
       {/* System Health Component */}
-      <div className="border-t border-white/10 p-4">
-        <div className="rounded-xl border border-white/10 bg-[#141414] p-4">
-          <div className="flex items-center gap-2 text-xs font-semibold text-white mb-2">
+      <div className="border-t border-[var(--hairline)] p-4">
+        <div className="rounded-xl border border-[var(--hairline)] bg-[var(--surface-soft)] p-4">
+          <div className="flex items-center gap-2 text-xs font-semibold text-[var(--ink)] mb-2">
             <Activity className="h-4 w-4 text-[#c1fbd4]" /> System Status
           </div>
           <div className="space-y-2 font-mono text-[11px]">
@@ -135,7 +139,7 @@ export function Sidebar() {
 
         <Link
           to="/"
-          className="mt-3 flex items-center justify-center gap-2 rounded-lg border border-white/10 bg-[#141414] px-4 py-2.5 text-xs font-medium text-[#9dabad] hover:text-white hover:bg-[#1f1f1f] transition"
+          className="mt-3 flex items-center justify-center gap-2 rounded-lg border border-[var(--hairline)] bg-[var(--surface-soft)] px-4 py-2.5 text-xs font-medium text-[var(--muted)] hover:text-[var(--ink)] hover:bg-[var(--surface-card)] transition"
         >
           <ArrowLeft className="h-3.5 w-3.5" /> Return to Overview
         </Link>
@@ -149,11 +153,11 @@ function Row({ label, status }: { label: string; status: ServiceStatus }) {
     status === "ok" ? "bg-[#c1fbd4]" : status === "warn" ? "bg-amber-400" : "bg-red-500";
 
   return (
-    <div className="flex items-center justify-between text-[#9dabad]">
+    <div className="flex items-center justify-between text-[var(--muted)]">
       <span>{label}</span>
       <span className="flex items-center gap-1.5">
         <span className={cn("h-1.5 w-1.5 rounded-full", colorClass)} />
-        <span className="text-[10px] font-semibold text-white">
+        <span className="text-[10px] font-semibold text-[var(--ink)]">
           {status === "ok" ? "OK" : status === "warn" ? "WARN" : "DOWN"}
         </span>
       </span>

@@ -23,7 +23,7 @@ tags:
 
 ## 💬 Token-Saving AI Summary
 ```text
-Module: frontend\src\services\api.ts (96 lines)
+Module: frontend\src\services\api.ts (145 lines)
 Tags: #code, #frontend
 Hub: 06_Frontend_App_Hub
 Exports: System Execution
