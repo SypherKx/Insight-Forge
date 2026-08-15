@@ -10,28 +10,28 @@ const nav = [
     to: "/app/dashboard",
     label: "Dashboard",
     product: "WAYPOINT ATTRIBUTION",
-    color: "var(--primary)",
+    color: "#c1fbd4",
     icon: LayoutDashboard,
   },
   {
     to: "/app/anomalies",
     label: "Anomalies",
     product: "TERRAFORM ENGINE",
-    color: "#a9583e",
+    color: "#c1fbd4",
     icon: AlertOctagon,
   },
   {
     to: "/app/upload",
     label: "Upload Data",
     product: "NOMAD INGESTION",
-    color: "var(--success)",
+    color: "#c1fbd4",
     icon: Upload,
   },
   {
     to: "/app/query",
     label: "Query Panel",
     product: "VAULT KNOWLEDGE RAG",
-    color: "#254fad",
+    color: "#c1fbd4",
     icon: Search,
   },
 ] as const;
@@ -64,7 +64,6 @@ export function Sidebar() {
           rag: "down",
           detector: "down",
         });
-        // Clear polling interval on connection error to keep UI snappy
         if (intervalId) clearInterval(intervalId);
       }
     }
@@ -77,15 +76,15 @@ export function Sidebar() {
   }, []);
 
   return (
-    <aside className="hidden md:flex w-[260px] shrink-0 flex-col border-r border-[var(--hairline)] bg-[var(--canvas)] transition-colors duration-300">
+    <aside className="hidden md:flex w-[260px] shrink-0 flex-col border-r border-white/10 bg-[#0a0a0a] transition-colors duration-300 text-white">
       {/* Brand Header */}
-      <Link to="/" className="flex items-center border-b border-[var(--hairline)] px-6 py-5">
+      <Link to="/" className="flex items-center border-b border-white/10 px-6 py-5">
         <BrandLogo size="md" />
       </Link>
 
       {/* Navigation List */}
       <div className="flex-1 px-4 py-6">
-        <div className="caption-uppercase px-2 pb-3 text-xs font-semibold text-[var(--muted)]">
+        <div className="eyebrow-cap px-2 pb-3 text-[#9dabad]">
           WORKSPACE MODULES
         </div>
         <ul className="flex flex-col gap-1.5">
@@ -100,18 +99,18 @@ export function Sidebar() {
                   className={cn(
                     "group flex flex-col rounded-xl px-4 py-3 transition-all duration-200 border",
                     active
-                      ? "bg-[var(--surface-card)] border-[var(--hairline)] text-[var(--ink)] font-semibold shadow-sm"
-                      : "text-[var(--muted)] hover:text-[var(--ink)] hover:bg-[var(--surface-soft)] border-transparent"
+                      ? "bg-[#18181b] border-white/20 text-white font-semibold shadow-sm"
+                      : "text-[#9dabad] hover:text-white hover:bg-[#141414] border-transparent"
                   )}
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2.5">
-                      <Icon className="h-4 w-4" style={{ color: active ? "var(--primary)" : "currentColor" }} />
+                      <Icon className="h-4 w-4" style={{ color: active ? "#c1fbd4" : "currentColor" }} />
                       <span className="text-sm">{n.label}</span>
                     </div>
-                    {active && <span className="h-2 w-2 rounded-full bg-[var(--primary)]" />}
+                    {active && <span className="h-2 w-2 rounded-full bg-[#c1fbd4]" />}
                   </div>
-                  <span className="font-mono text-[10px] uppercase text-[var(--muted)] mt-1">
+                  <span className="font-mono text-[10px] uppercase text-[#9dabad] mt-1">
                     {n.product}
                   </span>
                 </Link>
@@ -122,10 +121,10 @@ export function Sidebar() {
       </div>
 
       {/* System Health Component */}
-      <div className="border-t border-[var(--hairline)] p-4">
-        <div className="rounded-xl border border-[var(--hairline)] bg-[var(--surface-soft)] p-4">
-          <div className="flex items-center gap-2 text-xs font-semibold text-[var(--ink)] mb-2">
-            <Activity className="h-4 w-4 text-[var(--success)]" /> System Status
+      <div className="border-t border-white/10 p-4">
+        <div className="rounded-xl border border-white/10 bg-[#141414] p-4">
+          <div className="flex items-center gap-2 text-xs font-semibold text-white mb-2">
+            <Activity className="h-4 w-4 text-[#c1fbd4]" /> System Status
           </div>
           <div className="space-y-2 font-mono text-[11px]">
             <Row label="FastAPI Backend" status={health.api} />
@@ -136,7 +135,7 @@ export function Sidebar() {
 
         <Link
           to="/"
-          className="mt-3 flex items-center justify-center gap-2 rounded-lg border border-[var(--hairline)] bg-[var(--canvas)] px-4 py-2.5 text-xs font-medium text-[var(--muted)] hover:text-[var(--ink)] hover:bg-[var(--surface-soft)] transition"
+          className="mt-3 flex items-center justify-center gap-2 rounded-lg border border-white/10 bg-[#141414] px-4 py-2.5 text-xs font-medium text-[#9dabad] hover:text-white hover:bg-[#1f1f1f] transition"
         >
           <ArrowLeft className="h-3.5 w-3.5" /> Return to Overview
         </Link>
@@ -147,14 +146,14 @@ export function Sidebar() {
 
 function Row({ label, status }: { label: string; status: ServiceStatus }) {
   const colorClass =
-    status === "ok" ? "bg-[var(--success)]" : status === "warn" ? "bg-[var(--accent-amber)]" : "bg-[var(--error)]";
+    status === "ok" ? "bg-[#c1fbd4]" : status === "warn" ? "bg-amber-400" : "bg-red-500";
 
   return (
-    <div className="flex items-center justify-between text-[var(--muted)]">
+    <div className="flex items-center justify-between text-[#9dabad]">
       <span>{label}</span>
       <span className="flex items-center gap-1.5">
         <span className={cn("h-1.5 w-1.5 rounded-full", colorClass)} />
-        <span className="text-[10px] font-semibold text-[var(--ink)]">
+        <span className="text-[10px] font-semibold text-white">
           {status === "ok" ? "OK" : status === "warn" ? "WARN" : "DOWN"}
         </span>
       </span>

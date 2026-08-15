@@ -1,0 +1,71 @@
+{
+  "collapse-filter": false,
+  "search": "",
+  "showTags": true,
+  "showAttachments": false,
+  "hideUnresolved": true,
+  "showOrphans": false,
+  "collapse-color-groups": false,
+  "colorGroups": [
+    {
+      "query": "tag:#hub",
+      "color": {
+        "a": 1,
+        "rgb": 16711807
+      }
+    },
+    {
+      "query": "tag:#rag",
+      "color": {
+        "a": 1,
+        "rgb": 62463
+      }
+    },
+    {
+      "query": "tag:#anomaly",
+      "color": {
+        "a": 1,
+        "rgb": 57250
+      }
+    },
+    {
+      "query": "tag:#rootcause",
+      "color": {
+        "a": 1,
+        "rgb": 16758784
+      }
+    },
+    {
+      "query": "tag:#backend",
+      "color": {
+        "a": 1,
+        "rgb": 5195493
+      }
+    },
+    {
+      "query": "tag:#frontend",
+      "color": {
+        "a": 1,
+        "rgb": 16730199
+      }
+    },
+    {
+      "query": "tag:#database",
+      "color": {
+        "a": 1,
+        "rgb": 7381503
+      }
+    }
+  ],
+  "collapse-display": false,
+  "showArrow": true,
+  "textScale": 1.2,
+  "showLabels": true,
+  "linkThickness": 2.0,
+  "nodeSize": 2.8,
+  "collapse-forces": false,
+  "centerStrength": 0.45,
+  "repelStrength": 16.5,
+  "linkStrength": 1.2,
+  "linkDistance": 130
+}

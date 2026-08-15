@@ -2,101 +2,75 @@
 @source "../src";
 @import "tw-animate-css";
 
-/* Warm Editorial Design System for InsightForge AI */
+/* Dual-Track UX/UI Design System with Seamless Light & Dark Mode */
 
 @theme inline {
   --radius-xs: 4px;
-  --radius-sm: 6px;
+  --radius-sm: 5px;
   --radius-md: 8px;
   --radius-lg: 12px;
-  --radius-xl: 16px;
+  --radius-xl: 20px;
   --radius-pill: 9999px;
   --radius-full: 9999px;
 
-  --color-primary: #cc785c;
-  --color-primary-active: #a9583e;
-  --color-primary-disabled: #e6dfd8;
-  --color-accent-teal: #5db8a6;
-  --color-accent-amber: #e8a55a;
+  --color-aloe-10: #c1fbd4;
+  --color-pistachio-10: #d4f9e0;
 
-  --color-canvas: #faf9f5;
-  --color-surface-soft: #f5f0e8;
-  --color-surface-card: #efe9de;
-  --color-surface-cream-strong: #e8e0d2;
-  --color-surface-dark: #181715;
-  --color-surface-dark-elevated: #252320;
-  --color-surface-dark-soft: #1f1e1b;
-  --color-hairline: #e6dfd8;
-  --color-hairline-soft: #ebe6df;
-
-  --color-ink: #141413;
-  --color-body-strong: #252523;
-  --color-body: #3d3d3a;
-  --color-muted: #6c6a64;
-  --color-muted-soft: #8e8b82;
-
-  --color-on-primary: #ffffff;
-  --color-on-dark: #faf9f5;
-  --color-on-dark-soft: #a09d96;
-
-  --color-success: #5db872;
-  --color-warning: #d4a017;
-  --color-error: #c64545;
-
-  --font-serif: "Cormorant Garamond", "Tiempos Headline", Garamond, "Times New Roman", serif;
-  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-mono: "JetBrains Mono", "SF Mono", monospace;
+  --font-display: "Neue Haas Grotesk Display", "Helvetica Now Display", "Inter Display", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: "Inter Variable", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
+/* ==========================================================================
+   DEFAULT LIGHT MODE THEME
+   ========================================================================== */
 :root {
-  --primary: #cc785c;
-  --primary-active: #a9583e;
-  --primary-disabled: #e6dfd8;
-  --accent-teal: #5db8a6;
-  --accent-amber: #e8a55a;
+  font-feature-settings: "ss03" 1, "cv05" 1;
 
-  --canvas: #faf9f5;
-  --surface-soft: #f5f0e8;
-  --surface-card: #efe9de;
-  --surface-cream-strong: #e8e0d2;
-  --surface-dark: #181715;
-  --surface-dark-elevated: #252320;
-  --surface-dark-soft: #1f1e1b;
-  --hairline: #e6dfd8;
-  --hairline-soft: #ebe6df;
+  --canvas: #fbfbf5;
+  --surface-soft: #f4f4f5;
+  --surface-card: #ffffff;
+  --hairline: #e4e4e7;
 
-  --ink: #141413;
-  --body-strong: #252523;
-  --body: #3d3d3a;
-  --muted: #6c6a64;
-  --muted-soft: #8e8b82;
+  --ink: #000000;
+  --body-strong: #18181b;
+  --body: #3f3f46;
+  --muted: #71717a;
 
+  --primary: #000000;
   --on-primary: #ffffff;
-  --on-dark: #faf9f5;
-  --on-dark-soft: #a09d96;
+
+  --elevation-1: 0 1px 3px rgba(0,0,0,0.06);
+  --elevation-2: 0 4px 6px -1px rgba(0,0,0,0.08);
+  --elevation-3: 0 8px 8px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.06);
 }
 
-/* Dark Mode Overrides */
+/* ==========================================================================
+   DARK MODE OVERRIDES (.dark)
+   ========================================================================== */
 html.dark, body.dark, .dark {
-  --canvas: #141413;
-  --surface-soft: #1c1c1a;
-  --surface-card: #242320;
-  --surface-cream-strong: #2c2b27;
-  --surface-dark: #0a0a09;
-  --surface-dark-elevated: #181715;
-  --surface-dark-soft: #121211;
-  --hairline: #2e2c29;
-  --hairline-soft: #262422;
+  --canvas: #000000;
+  --surface-soft: #0e0e0e;
+  --surface-card: #141414;
+  --hairline: rgba(255, 255, 255, 0.12);
 
-  --ink: #faf9f5;
-  --body-strong: #f0eee8;
-  --body: #d8d5cc;
-  --muted: #a09d96;
-  --muted-soft: #78756e;
+  --ink: #ffffff;
+  --body-strong: #f4f4f5;
+  --body: #e4e4e7;
+  --muted: #9dabad;
+
+  --primary: #c1fbd4;
+  --on-primary: #000000;
+
+  --elevation-1: 0 1px 2px rgba(255,255,255,0.05);
+  --elevation-2: 0 1px 3px rgba(0,0,0,0.3);
+  --elevation-3: 0 8px 8px rgba(0,0,0,0.1), 0 0 0 1px rgba(255,255,255,0.1);
 }
 
 @layer base {
   * {
+    box-sizing: border-box;
+    font-feature-settings: "ss03" 1, "cv05" 1;
     border-color: var(--hairline);
   }
 
@@ -105,381 +79,94 @@ html.dark, body.dark, .dark {
     color: var(--ink);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    line-height: 1.55;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
 
-  /* Serif Display Hierarchy */
-  h1, h2, h3 {
-    font-family: var(--font-serif);
-    font-weight: 400;
+  h1, h2, h3, h4, h5, h6 {
     color: var(--ink);
   }
 
-  .display-xl {
-    font-family: var(--font-serif);
-    font-size: 64px;
-    font-weight: 400;
-    line-height: 1.05;
-    letter-spacing: -1.5px;
-    color: var(--ink);
-  }
-
-  @media (max-width: 768px) {
-    .display-xl {
-      font-size: 38px;
-      letter-spacing: -0.8px;
-    }
-  }
-
-  .display-lg {
-    font-family: var(--font-serif);
-    font-size: 48px;
-    font-weight: 400;
-    line-height: 1.1;
-    letter-spacing: -1px;
-    color: var(--ink);
-  }
-
-  @media (max-width: 768px) {
-    .display-lg {
-      font-size: 32px;
-    }
-  }
-
-  .display-md {
-    font-family: var(--font-serif);
-    font-size: 36px;
-    font-weight: 400;
-    line-height: 1.15;
-    letter-spacing: -0.5px;
-    color: var(--ink);
-  }
-
-  .display-sm {
-    font-family: var(--font-serif);
-    font-size: 28px;
-    font-weight: 400;
-    line-height: 1.2;
-    letter-spacing: -0.3px;
-    color: var(--ink);
-  }
-
-  .title-lg {
-    font-family: var(--font-sans);
-    font-size: 22px;
-    font-weight: 500;
-    line-height: 1.3;
-    color: var(--ink);
-  }
-
-  .title-md {
-    font-family: var(--font-sans);
-    font-size: 18px;
-    font-weight: 500;
-    line-height: 1.4;
-    color: var(--ink);
-  }
-
-  .title-sm {
-    font-family: var(--font-sans);
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 1.4;
-    color: var(--ink);
-  }
-
-  .body-md {
-    font-family: var(--font-sans);
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 1.55;
-    color: var(--body);
-  }
-
-  .body-sm {
-    font-family: var(--font-sans);
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.55;
-    color: var(--muted);
-  }
-
-  .caption {
-    font-family: var(--font-sans);
-    font-size: 13px;
-    font-weight: 500;
-    line-height: 1.4;
-    color: var(--muted);
-  }
-
-  .caption-uppercase {
-    font-family: var(--font-sans);
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 1.4;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--primary);
-  }
+  /* Concise Typography Utilities */
+  .display-xxl { font-family: var(--font-display); font-size: clamp(40px, 8vw, 72px); font-weight: 330; line-height: 1.05; letter-spacing: 1px; color: var(--ink); }
+  .display-lg  { font-family: var(--font-display); font-size: clamp(32px, 5vw, 48px); font-weight: 330; line-height: 1.15; color: var(--ink); }
+  .heading-xl  { font-family: var(--font-sans); font-size: 24px; font-weight: 500; line-height: 1.3; color: var(--ink); }
+  .heading-md  { font-family: var(--font-sans); font-size: 18px; font-weight: 500; line-height: 1.4; color: var(--ink); }
+  .body-lg     { font-family: var(--font-sans); font-size: 17px; font-weight: 450; line-height: 1.5; color: var(--body); }
+  .body-md     { font-family: var(--font-sans); font-size: 15px; font-weight: 400; line-height: 1.5; color: var(--body); }
+  .caption     { font-family: var(--font-sans); font-size: 13px; font-weight: 500; color: var(--muted); }
+  .eyebrow-cap { font-family: var(--font-sans); font-size: 11px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--muted); }
 }
 
-@layer utilities {
-  /* ------------------------------------------------------------- */
-  /* INSIGHTFORGE LIQUID GLASS SIGNATURE BUTTONS                   */
-  /* ------------------------------------------------------------- */
-
-  /* Primary Liquid Glass CTA Button */
-  .button-primary {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-active) 100%);
-    color: var(--on-primary);
-    font-family: var(--font-sans);
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1.0;
-    border-radius: 10px;
-    padding: 12px 22px;
-    height: 42px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    cursor: pointer;
-    backdrop-filter: blur(12px) saturate(180%);
-    -webkit-backdrop-filter: blur(12px) saturate(180%);
-    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 6px 20px -4px rgba(204, 120, 92, 0.4);
-    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .button-primary::after {
-    content: "";
-    position: absolute;
-    top: 0; left: -100%;
-    width: 60%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-    transition: left 0.6s ease;
-  }
-
-  .button-primary:hover::after {
-    left: 140%;
-  }
-
-  .button-primary:hover {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.6), 0 10px 24px -4px rgba(204, 120, 92, 0.5);
-  }
-
-  .button-primary:active {
-    transform: translateY(0) scale(0.99);
-  }
-
-  /* Liquid Glass Secondary Button */
-  .button-secondary {
-    background: rgba(255, 255, 255, 0.55);
-    color: var(--ink);
-    font-family: var(--font-sans);
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.0;
-    border-radius: 10px;
-    padding: 12px 20px;
-    height: 42px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    border: 1px solid var(--hairline);
-    cursor: pointer;
-    backdrop-filter: blur(12px) saturate(160%);
-    -webkit-backdrop-filter: blur(12px) saturate(160%);
-    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6), 0 4px 14px rgba(0, 0, 0, 0.05);
-    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .dark .button-secondary {
-    background: rgba(36, 35, 32, 0.65);
-    border-color: rgba(255, 255, 255, 0.12);
-    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15), 0 4px 14px rgba(0, 0, 0, 0.3);
-  }
-
-  .button-secondary:hover {
-    background: var(--surface-soft);
-    border-color: var(--primary);
-    transform: translateY(-1px);
-  }
-
-  /* Secondary Button on Dark Navy Cards */
-  .button-secondary-on-dark {
-    background: rgba(255, 255, 255, 0.08);
-    color: var(--on-dark);
-    font-family: var(--font-sans);
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.0;
-    border-radius: 10px;
-    padding: 12px 20px;
-    height: 42px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    cursor: pointer;
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
-    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
-    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .button-secondary-on-dark:hover {
-    background: rgba(255, 255, 255, 0.16);
-    border-color: rgba(255, 255, 255, 0.35);
-    transform: translateY(-1px);
-  }
-
-  /* Inverted Liquid Glass Button inside Coral Callout Cards */
-  .button-on-coral {
-    background: rgba(255, 255, 255, 0.9);
-    color: #141413;
-    font-family: var(--font-sans);
-    font-size: 14px;
-    font-weight: 600;
-    border-radius: 10px;
-    padding: 12px 24px;
-    height: 44px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    cursor: pointer;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.15);
-    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .button-on-coral:hover {
-    background: #ffffff;
-    transform: translateY(-2px);
-    box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.25);
-  }
-
-  .button-pricing-pill {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-active) 100%);
-    color: var(--on-primary);
-    font-family: var(--font-sans);
-    font-size: 14px;
-    font-weight: 600;
-    border-radius: 9999px;
-    padding: 12px 24px;
-    height: 42px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    cursor: pointer;
-    backdrop-filter: blur(12px);
-    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 4px 16px rgba(204, 120, 92, 0.3);
-    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .button-pricing-pill:hover {
-    transform: translateY(-1px);
-    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.6), 0 8px 20px rgba(204, 120, 92, 0.45);
-  }
-
-  /* Inline Coral Text Link */
-  .text-link {
-    color: var(--primary);
-    font-weight: 500;
-    transition: color 0.2s ease;
-  }
-
-  .text-link:hover {
-    color: var(--primary-active);
-    text-decoration: underline;
-  }
-
-  /* ------------------------------------------------------------- */
-  /* CARDS & CONTAINERS                                             */
-  /* ------------------------------------------------------------- */
-
-  /* Light Cream Feature Card */
-  .feature-card {
-    background-color: var(--surface-card);
-    border: 1px solid var(--hairline);
-    border-radius: 12px;
-    padding: 32px;
-  }
-
-  /* Dark Navy Product Chrome Card */
-  .product-mockup-card-dark {
-    background-color: var(--surface-dark);
-    color: var(--on-dark);
-    border-radius: 12px;
-    padding: 32px;
-    box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.3);
-  }
-
-  /* Specialized Code Window Card */
-  .code-window-card {
-    background-color: var(--surface-dark);
-    color: var(--on-dark);
-    border-radius: 12px;
-    padding: 24px;
-    font-family: var(--font-mono);
-  }
-
-  /* Full-Bleed Coral Callout Card */
-  .callout-card-coral {
-    background-color: var(--primary);
-    color: var(--on-primary);
-    border-radius: 12px;
-    padding: 48px;
-  }
-
-  /* Category Badge Pill */
-  .badge-pill {
-    background-color: var(--surface-card);
-    color: var(--ink);
-    font-size: 13px;
-    font-weight: 500;
-    border-radius: 9999px;
-    padding: 4px 12px;
-    border: 1px solid var(--hairline);
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .badge-coral {
-    background-color: var(--primary);
-    color: var(--on-primary);
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    border-radius: 9999px;
-    padding: 4px 12px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  /* Universal Section Rhythm */
-  .section-rhythm {
-    padding-top: 96px;
-    padding-bottom: 96px;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
-  .scrollbar-thin::-webkit-scrollbar-thumb {
-    background: var(--hairline);
-    border-radius: 4px;
-  }
+/* Reusable Pill Button System */
+.button-primary-pill, .button-outline-on-dark, .button-outline-on-light, .button-aloe-pill {
+  border-radius: 9999px;
+  padding: 10px 22px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  min-height: 42px;
 }
+
+.button-primary-pill { background-color: var(--primary); color: var(--on-primary); border: none; }
+.button-primary-pill:hover { opacity: 0.9; transform: translateY(-1px); }
+
+.button-outline-on-dark { background-color: transparent; border: 1px solid var(--hairline); color: var(--ink); }
+.button-outline-on-dark:hover { background-color: var(--surface-soft); border-color: #c1fbd4; }
+
+.button-outline-on-light { background-color: var(--surface-card); border: 1px solid var(--hairline); color: var(--ink); }
+.button-outline-on-light:hover { background-color: var(--surface-soft); }
+
+.button-aloe-pill { background-color: #c1fbd4; color: #000000; border: none; font-weight: 600; }
+.button-aloe-pill:hover { background-color: #a3f7be; }
+
+/* Clean Modular Cards */
+.card-pricing {
+  background-color: var(--surface-card);
+  color: var(--ink);
+  border: 1px solid var(--hairline);
+  border-radius: 14px;
+  padding: 28px;
+  box-shadow: var(--elevation-3);
+}
+
+.card-pricing-featured {
+  background-color: #c1fbd4;
+  color: #000000;
+  border: 1px solid #a3f7be;
+  border-radius: 14px;
+  padding: 28px;
+  box-shadow: var(--elevation-3);
+}
+.card-pricing-featured * { color: #000000 !important; }
+
+.card-pistachio-band {
+  background-color: #d4f9e0;
+  color: #000000;
+  border-radius: 14px;
+  padding: 28px;
+}
+.card-pistachio-band * { color: #000000 !important; }
+
+.pill-tag-mint, .pill-tag-shade {
+  border-radius: 9999px;
+  padding: 3px 10px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pill-tag-mint { background-color: #c1fbd4; color: #000000; }
+.pill-tag-shade { background-color: var(--surface-soft); color: var(--ink); border: 1px solid var(--hairline); }

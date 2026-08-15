@@ -15,17 +15,17 @@ export function GlassCard({
   hover = false,
 }: GlassCardProps) {
   const variantStyles = {
-    canvas: "bg-[var(--surface-card)] border border-[var(--hairline)] text-[var(--ink)] rounded-xl p-6 shadow-sm",
-    soft: "bg-[var(--surface-soft)] border border-[var(--hairline)] text-[var(--ink)] rounded-xl p-6",
-    dark: "bg-[var(--surface-dark)] text-[var(--on-dark)] border border-[var(--hairline)] rounded-xl p-8 shadow-xl",
-    coral: "bg-[var(--primary)] text-white rounded-xl p-8 shadow-lg",
-    forest: "bg-emerald-950 text-white rounded-xl p-8 shadow-lg",
-    cream: "bg-[var(--surface-card)] text-[var(--ink)] border border-[var(--hairline)] rounded-xl p-6",
-    peach: "bg-[var(--surface-soft)] text-[var(--ink)] border border-[var(--hairline)] rounded-xl p-6",
-    mint: "bg-emerald-950/40 text-[var(--ink)] border border-emerald-800/40 rounded-xl p-6",
-    yellow: "bg-amber-950/40 text-[var(--ink)] border border-amber-800/40 rounded-xl p-6",
-    violet: "bg-purple-950/40 text-white rounded-xl p-8 shadow-lg",
-    cyan: "bg-sky-950/40 text-white rounded-xl p-8 shadow-lg",
+    canvas: "bg-[#0a0a0a] border border-white/10 text-white rounded-xl p-6 shadow-sm",
+    soft: "bg-[#141414] border border-white/10 text-white rounded-xl p-6",
+    dark: "bg-[#0a0a0a] text-white border border-white/10 rounded-xl p-8 shadow-xl",
+    coral: "bg-[#0a0a0a] text-white border border-white/10 rounded-xl p-8 shadow-lg",
+    forest: "bg-[#c1fbd4] text-[#000000] border border-[#a3f7be] rounded-xl p-8 shadow-lg",
+    cream: "bg-[#fbfbf5] text-[#000000] border border-[#e4e4e7] rounded-xl p-6 shadow-sm",
+    peach: "bg-[#141414] text-white border border-white/10 rounded-xl p-6",
+    mint: "bg-[#c1fbd4] text-[#000000] border border-[#a3f7be] rounded-xl p-6",
+    yellow: "bg-[#d4f9e0] text-[#000000] border border-[#a3f7be] rounded-xl p-6",
+    violet: "bg-[#141414] text-white border border-white/10 rounded-xl p-8 shadow-lg",
+    cyan: "bg-[#141414] text-white border border-white/10 rounded-xl p-8 shadow-lg",
   };
 
   return (
@@ -33,7 +33,7 @@ export function GlassCard({
       className={cn(
         variantStyles[variant],
         "transition-all duration-200",
-        hover && "hover:border-slate-400 hover:shadow-md",
+        hover && "hover:border-white/30 hover:shadow-md",
         className
       )}
     >

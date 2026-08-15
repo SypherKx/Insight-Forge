@@ -3,25 +3,24 @@ import { cn } from "@/lib/utils";
 
 interface GlowBadgeProps {
   children: ReactNode;
-  variant?: "default" | "coral" | "forest" | "cream" | "info";
+  variant?: "mint" | "shade" | "default" | "darkOutline";
   className?: string;
 }
 
 export function GlowBadge({
   children,
-  variant = "default",
+  variant = "mint",
   className,
 }: GlowBadgeProps) {
   const variantStyles = {
-    default: "liquid-glass-tag",
-    coral: "bg-[#aa2d00]/10 text-[#aa2d00] border-[#aa2d00]/20 font-semibold rounded-full px-3 py-1 text-xs",
-    forest: "bg-[#0a2e0e]/10 text-[#0a2e0e] border-[#0a2e0e]/20 font-semibold rounded-full px-3 py-1 text-xs",
-    cream: "bg-[#f5e9d4] text-[#181d26] border-[#dddddd] rounded-full px-3 py-1 text-xs font-medium",
-    info: "bg-[#254fad]/10 text-[#254fad] border-[#254fad]/20 rounded-full px-3 py-1 text-xs font-medium",
+    mint: "pill-tag-mint",
+    shade: "pill-tag-shade",
+    default: "pill-tag-mint",
+    darkOutline: "border border-white/20 bg-black/40 text-white rounded-full px-3 py-1 text-xs font-mono tracking-wider uppercase",
   };
 
   return (
-    <span className={cn("inline-flex items-center gap-1.5 border", variantStyles[variant], className)}>
+    <span className={cn("inline-flex items-center gap-1.5", variantStyles[variant], className)}>
       {children}
     </span>
   );

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Sparkles, CheckCircle2, FileText, Activity, ArrowRight } from "lucide-react";
+import { Search, Sparkles, CheckCircle2, FileText, Activity, ArrowRight, ShieldCheck, Cpu } from "lucide-react";
 
 const sampleQueries = [
   {
@@ -41,102 +41,93 @@ export function HeroVisual() {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 25 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-      className="relative w-full"
+      initial={{ opacity: 0, scale: 0.98 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.6 }}
+      className="relative w-full flex flex-col gap-3"
     >
-      {/* Outer Floating Card Container */}
-      <div className="rounded-2xl border border-[var(--hairline)] bg-[var(--surface-card)] p-6 shadow-xl transition-colors duration-300">
-        
-        {/* Interactive Header & Status */}
-        <div className="flex items-center justify-between border-b border-[var(--hairline)] pb-4 mb-4">
-          <div className="flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-[var(--primary)]" />
-            <span className="text-xs font-sans font-semibold uppercase tracking-wider text-[var(--ink)]">
-              LIVE RAG VECTOR SEARCH
-            </span>
-          </div>
-          <span className="badge-coral text-[11px]">
-            <Sparkles className="h-3 w-3 inline mr-1" /> FAISS 100% LOCAL
-          </span>
-        </div>
+      {/* 1. PROFESSIONAL SAAS DASHBOARD UI MOCKUP CONTAINER */}
+      <div className="relative rounded-xl border border-[var(--hairline)] overflow-hidden shadow-2xl bg-[var(--surface-card)] group">
+        <img
+          src="/professional_dashboard.jpg"
+          alt="InsightForge AI Clinical Intelligence Dashboard"
+          className="w-full h-[220px] sm:h-[260px] md:h-[280px] object-cover object-top transform transition-transform duration-500 group-hover:scale-102"
+        />
 
-        {/* Interactive Clickable Sample Buttons */}
-        <div className="mb-4">
-          <div className="caption text-[11px] uppercase font-semibold text-[var(--muted)] mb-2">
-            TRY CLICKING A CLINICAL QUESTION:
+        {/* Ambient Dark Gradient Scrim Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--canvas)] via-transparent to-transparent pointer-events-none" />
+
+        {/* Floating Glassmorphism Badges over Dashboard */}
+        <div className="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none">
+          <div className="backdrop-blur-md bg-black/70 border border-white/20 px-3 py-1 rounded-full text-[11px] font-medium text-white flex items-center gap-1.5 shadow-md">
+            <Sparkles className="h-3 w-3 text-[#c1fbd4]" />
+            <span className="font-mono text-[10px] uppercase tracking-wider">384-D FAISS VECTOR FORGE</span>
           </div>
-          <div className="flex flex-wrap gap-2">
-            {sampleQueries.map((item, idx) => (
-              <button
-                key={item.id}
-                onClick={() => setActiveIdx(idx)}
-                className={`text-xs px-3 py-1.5 rounded-full font-medium transition-all ${
-                  activeIdx === idx
-                    ? "bg-[var(--primary)] text-white shadow-sm font-semibold scale-105"
-                    : "bg-[var(--canvas)] text-[var(--ink)] border border-[var(--hairline)] hover:border-[var(--primary)]"
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
+
+          <div className="backdrop-blur-md bg-black/70 border border-white/20 px-3 py-1 rounded-full text-[11px] font-medium text-[#c1fbd4] flex items-center gap-1 shadow-md">
+            <ShieldCheck className="h-3 w-3 text-[#c1fbd4]" />
+            <span className="font-mono text-[10px] uppercase tracking-wider">100% LOCAL PRIVACY</span>
           </div>
         </div>
+      </div>
 
-        {/* Simulated Search Input Box */}
-        <div className="relative flex items-center rounded-xl border border-[var(--hairline)] bg-[var(--canvas)] px-4 py-3 shadow-inner mb-4">
-          <Search className="h-4 w-4 text-[var(--primary)] mr-2 shrink-0" />
-          <span className="text-sm font-medium text-[var(--ink)] truncate">
+      {/* 2. COMPACT LIVE INTERACTIVE QUERY PREVIEW BOX */}
+      <div className="rounded-xl border border-[var(--hairline)] bg-[var(--surface-card)] p-4 shadow-lg">
+        {/* Sample Question Selector */}
+        <div className="mb-2 flex items-center justify-between">
+          <span className="eyebrow-cap text-[10px] text-[var(--muted)]">INTERACTIVE DEMO:</span>
+          <span className="text-[10px] font-mono text-[#c1fbd4] font-semibold">FAISS RAG ACTIVE</span>
+        </div>
+
+        <div className="flex flex-wrap gap-1.5 mb-3">
+          {sampleQueries.map((item, idx) => (
+            <button
+              key={item.id}
+              onClick={() => setActiveIdx(idx)}
+              className={`text-[11px] px-2.5 py-1 rounded-full font-medium transition-all cursor-pointer ${
+                activeIdx === idx
+                  ? "bg-[#c1fbd4] text-[#000000] font-semibold scale-105"
+                  : "bg-[var(--surface-soft)] text-[var(--ink)] border border-[var(--hairline)] hover:border-[#c1fbd4]"
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Query Input Box */}
+        <div className="relative flex items-center rounded-lg border border-[var(--hairline)] bg-[var(--surface-soft)] px-3 py-2 shadow-inner mb-3">
+          <Search className="h-3.5 w-3.5 text-[#c1fbd4] mr-2 shrink-0" />
+          <span className="text-xs font-medium text-[var(--ink)] truncate">
             {activeItem.question}
           </span>
         </div>
 
-        {/* Animated Answer & Citation Result Card */}
+        {/* Animated Answer Card */}
         <AnimatePresence mode="wait">
           <motion.div
             key={activeItem.id}
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3 }}
-            className="rounded-xl border border-[var(--hairline)] bg-[var(--canvas)] p-5 shadow-sm space-y-3"
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.2 }}
+            className="rounded-lg border border-[var(--hairline)] bg-[var(--surface-soft)] p-3 space-y-2"
           >
-            {/* Document Source Header */}
-            <div className="flex items-center justify-between border-b border-[var(--hairline)] pb-3">
-              <div className="flex items-center gap-2">
-                <FileText className="h-4 w-4 text-[var(--primary)]" />
-                <span className="text-xs font-semibold text-[var(--ink)]">{activeItem.doc}</span>
-                <span className="text-[11px] text-[var(--muted)] font-mono">({activeItem.page})</span>
+            <div className="flex items-center justify-between border-b border-[var(--hairline)] pb-2">
+              <div className="flex items-center gap-1.5 truncate">
+                <FileText className="h-3.5 w-3.5 text-[#c1fbd4] shrink-0" />
+                <span className="text-xs font-semibold text-[var(--ink)] truncate">{activeItem.doc}</span>
               </div>
-              <span className="text-xs font-mono font-bold text-[var(--success)] flex items-center gap-1">
-                <CheckCircle2 className="h-3.5 w-3.5" /> {activeItem.score}% Match
+              <span className="text-[11px] font-mono font-bold text-[#c1fbd4] shrink-0">
+                {activeItem.score}% Match
               </span>
             </div>
 
-            {/* Answer Content */}
-            <p className="body-md text-sm text-[var(--body-strong)] leading-relaxed">
+            <p className="text-xs text-[var(--body)] leading-relaxed">
               "{activeItem.answer}"
             </p>
-
-            {/* Evidence Footer Pill */}
-            <div className="pt-2 flex items-center justify-between text-xs border-t border-[var(--hairline)]">
-              <span className="badge-pill text-[10px]">{activeItem.tag}</span>
-              <span className="text-[11px] font-semibold text-[var(--primary)] flex items-center gap-1">
-                Ground-Truth Cited <ArrowRight className="h-3 w-3" />
-              </span>
-            </div>
           </motion.div>
         </AnimatePresence>
-
-        {/* Real-time Health Signal Indicator */}
-        <div className="mt-4 flex items-center justify-between text-xs text-[var(--muted)] pt-2 border-t border-[var(--hairline)]">
-          <span className="flex items-center gap-1.5">
-            <Activity className="h-3.5 w-3.5 text-[var(--success)] animate-pulse" />
-            <span className="font-mono text-[11px]">PETTITT CHANGE-POINT DETECTOR: ONLINE</span>
-          </span>
-          <span className="font-mono text-[11px] font-bold text-[var(--ink)]">0.4ms Latency</span>
-        </div>
       </div>
     </motion.div>
   );

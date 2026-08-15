@@ -3,36 +3,43 @@ import { cn } from "@/lib/utils";
 
 export interface PremiumButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "secondaryOnDark" | "pricingPill" | "tertiary";
+  variant?:
+    | "primaryPill"
+    | "outlineOnDark"
+    | "outlineOnLight"
+    | "aloePill"
+    | "primary"
+    | "secondary";
   size?: "sm" | "md" | "lg";
   children: ReactNode;
 }
 
 export function PremiumButton({
-  variant = "primary",
+  variant = "primaryPill",
   size = "md",
   children,
   className,
   ...props
 }: PremiumButtonProps) {
   const sizeClasses = {
-    sm: "px-3.5 py-2 text-xs md:text-sm font-medium",
-    md: "px-4 py-2.5 text-sm md:text-base font-semibold",
-    lg: "px-6 py-3.5 text-base font-semibold",
+    sm: "px-4 py-2 text-sm",
+    md: "px-6 py-3 text-base",
+    lg: "px-8 py-4 text-base font-semibold",
   };
 
   const variantClasses = {
-    primary: "button-primary",
-    secondary: "button-secondary",
-    secondaryOnDark: "bg-white text-slate-900 font-semibold rounded-xl px-5 py-3 hover:bg-slate-100 transition shadow-md",
-    pricingPill: "button-pricing-pill",
-    tertiary: "bg-transparent text-slate-700 hover:bg-slate-100 border-none font-medium",
+    primaryPill: "button-primary-pill",
+    outlineOnDark: "button-outline-on-dark",
+    outlineOnLight: "button-outline-on-light",
+    aloePill: "button-aloe-pill",
+    primary: "button-primary-pill",
+    secondary: "button-outline-on-dark",
   };
 
   return (
     <button
       className={cn(
-        "cursor-pointer transition-all duration-200 inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed",
+        "cursor-pointer inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200",
         variantClasses[variant],
         sizeClasses[size],
         className
