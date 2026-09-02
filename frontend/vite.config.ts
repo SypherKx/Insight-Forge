@@ -12,4 +12,21 @@ export default defineConfig({
   tanstackStart: {
     server: { entry: "server" },
   },
+  vite: {
+    build: {
+      target: "esnext",
+      cssCodeSplit: true,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes("node_modules")) {
+              if (id.includes("recharts")) return "vendor-recharts";
+              if (id.includes("framer-motion")) return "vendor-motion";
+              if (id.includes("lucide-react")) return "vendor-icons";
+            }
+          },
+        },
+      },
+    },
+  },
 });

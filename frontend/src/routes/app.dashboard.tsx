@@ -13,9 +13,6 @@ import { getDatasets } from "../services/api";
 import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/app/dashboard")({
-  beforeLoad: () => {
-    throw redirect({ to: "/app/query" });
-  },
   head: () => ({ meta: [{ title: "Clinical & Educational RAG Cockpit — InsightForge" }] }),
   component: DashboardPage,
 });
