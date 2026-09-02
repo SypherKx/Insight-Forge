@@ -48,7 +48,7 @@ const featureCards = [
     bullets: [
       "FAISS dense vector index search across medical PDFs & lecture decks",
       "Exact page, paragraph, and table evidence citations",
-      "Grounded prompt synthesis using Groq Llama 3.3 70B",
+      "Grounded prompt synthesis using Local Ollama Llama 3.2 3B",
     ],
     cta: "Launch RAG Engine",
     link: "/app/query",
@@ -162,9 +162,9 @@ function LandingPage() {
 
               {/* Project Action Buttons */}
               <div className="flex flex-wrap items-center gap-3 pt-1">
-                <Link to="/app/dashboard">
+                <Link to="/app/query">
                   <PremiumButton variant="primaryPill" size="md">
-                    <LayoutDashboard className="h-4 w-4 mr-1" /> Launch Workspace <ArrowRight className="h-4 w-4 ml-1" />
+                    <Sparkles className="h-4 w-4 mr-1 text-[#c1fbd4]" /> Launch RAG Engine <ArrowRight className="h-4 w-4 ml-1" />
                   </PremiumButton>
                 </Link>
                 <Link to="/app/query">

@@ -17,6 +17,8 @@ tags:
 ---
 
 ## ⚙️ Key Symbols & Interfaces
+- `async def get_rag_stats`
+- `async def clear_rag_knowledge_base`
 - `async def upload_rag_documents`
 - `async def query_rag`
 
@@ -24,8 +26,8 @@ tags:
 
 ## 💬 Token-Saving AI Summary
 ```text
-Module: backend\routers\rag.py (82 lines)
+Module: backend\routers\rag.py (104 lines)
 Tags: #code, #backend
 Hub: 05_FastAPI_Backend_Hub
-Exports: async def upload_rag_documents, async def query_rag
+Exports: async def get_rag_stats, async def clear_rag_knowledge_base, async def upload_rag_documents, async def query_rag
 ```

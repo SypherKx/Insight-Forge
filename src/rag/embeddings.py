@@ -53,28 +53,25 @@ class EmbeddingGenerator:
 
         try:
             from sentence_transformers import SentenceTransformer
-        except ImportError:
-            logger.error("sentence-transformers not installed. Install with: pip install sentence-transformers")
-            raise
-
-        logger.info(f"Loading embedding model: {self.config.model_name}")
-        self._model = SentenceTransformer(
-            self.config.model_name,
-            device=self.config.device
-        )
-
-        # Get actual embedding dimension
-        test_emb = self._model.encode(["test"], convert_to_numpy=True)
-        self._dimension = test_emb.shape[1]
-
-        self._initialized = True
-        logger.info(f"Embedding model loaded (dimension: {self._dimension})")
+            logger.info(f"Loading embedding model: {self.config.model_name}")
+            self._model = SentenceTransformer(
+                self.config.model_name,
+                device=self.config.device
+            )
+            test_emb = self._model.encode(["test"], convert_to_numpy=True)
+            self._dimension = test_emb.shape[1]
+            self._initialized = True
+            logger.info(f"SentenceTransformer loaded (dimension: {self._dimension})")
+        except Exception as e:
+            logger.warning(f"SentenceTransformer not ready ({e}). Using sklearn vectorizer fallback.")
+            from sklearn.feature_extraction.text import HashingVectorizer
+            self._vectorizer = HashingVectorizer(n_features=self._dimension, norm="l2", alternate_sign=False)
+            self._model = None
+            self._initialized = True
 
     @property
     def dimension(self) -> int:
         """Get embedding dimension."""
-        if not self._initialized:
-            self._lazy_init()
         return self._dimension
 
     def generate(self, texts: List[str], batch_size: Optional[int] = None) -> np.ndarray:
@@ -107,13 +104,17 @@ class EmbeddingGenerator:
         batch_size = batch_size or self.config.batch_size
 
         try:
-            embeddings = self._model.encode(
-                valid_texts,
-                batch_size=batch_size,
-                show_progress_bar=self.config.show_progress_bar,
-                convert_to_numpy=True,
-                normalize_embeddings=self.config.normalize_embeddings
-            )
+            if self._model is not None:
+                embeddings = self._model.encode(
+                    valid_texts,
+                    batch_size=batch_size,
+                    show_progress_bar=self.config.show_progress_bar,
+                    convert_to_numpy=True,
+                    normalize_embeddings=self.config.normalize_embeddings
+                )
+            else:
+                sparse_mat = self._vectorizer.transform(valid_texts)
+                embeddings = sparse_mat.toarray()
 
             # Ensure 2D array
             if embeddings.ndim == 1:

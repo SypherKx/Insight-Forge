@@ -52,7 +52,7 @@ class RAGPipeline:
             "chunk_overlap": 50,
             "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
             "batch_size": 32,
-            "allowed_extensions": [".pdf", ".txt", ".md"],
+            "allowed_extensions": [".pdf", ".txt", ".md", ".csv", ".json", ".docx", ".log", ".rst", ".html", ".xml"],
             ** (config or {})
         }
 
@@ -147,6 +147,7 @@ class RAGPipeline:
         # Step 3: Create DocumentChunk objects
         chunk_objects = []
         for chunk_dict in chunks_data:
+            doc_meta = chunk_dict.get("doc_metadata") or {}
             chunk_obj = DocumentChunk(
                 id=chunk_dict["chunk_id"],
                 document_id=chunk_dict["document_id"],
@@ -155,7 +156,10 @@ class RAGPipeline:
                 text=chunk_dict["text"],
                 metadata={
                     "token_count": chunk_dict["token_count"],
-                    "segment_count": chunk_dict["segment_count"]
+                    "segment_count": chunk_dict["segment_count"],
+                    "title": chunk_dict.get("title") or doc_meta.get("file_name", ""),
+                    "source": chunk_dict.get("source_path") or doc_meta.get("file_name", ""),
+                    **doc_meta
                 }
             )
             chunk_objects.append(chunk_obj)

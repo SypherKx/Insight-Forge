@@ -4,7 +4,7 @@ import { DashboardShell } from "@/components/dashboard/DashboardShell";
 export const Route = createFileRoute("/app")({
   beforeLoad: ({ location }) => {
     if (location.pathname === "/app") {
-      throw redirect({ to: "/app/dashboard" });
+      throw redirect({ to: "/app/query" });
     }
   },
   component: () => (

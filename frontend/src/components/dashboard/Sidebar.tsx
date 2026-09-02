@@ -7,18 +7,11 @@ import { checkHealth } from "../../services/api";
 
 const nav = [
   {
-    to: "/app/dashboard",
-    label: "Dashboard",
-    product: "WAYPOINT ATTRIBUTION",
+    to: "/app/query",
+    label: "Query Panel (RAG)",
+    product: "VAULT KNOWLEDGE RAG",
     color: "#c1fbd4",
-    icon: LayoutDashboard,
-  },
-  {
-    to: "/app/anomalies",
-    label: "Anomalies",
-    product: "TERRAFORM ENGINE",
-    color: "#c1fbd4",
-    icon: AlertOctagon,
+    icon: Search,
   },
   {
     to: "/app/upload",
@@ -28,11 +21,11 @@ const nav = [
     icon: Upload,
   },
   {
-    to: "/app/query",
-    label: "Query Panel",
-    product: "VAULT KNOWLEDGE RAG",
+    to: "/app/anomalies",
+    label: "Anomalies",
+    product: "TERRAFORM ENGINE",
     color: "#c1fbd4",
-    icon: Search,
+    icon: AlertOctagon,
   },
 ] as const;
 
@@ -93,7 +86,7 @@ export function Sidebar() {
         </div>
         <ul className="flex flex-col gap-1.5">
           {nav.map((n) => {
-            const active = path === n.to || (n.to !== "/app/dashboard" && path.startsWith(n.to));
+            const active = path === n.to || path.startsWith(n.to);
             const Icon = n.icon;
 
             return (

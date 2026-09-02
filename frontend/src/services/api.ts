@@ -16,7 +16,7 @@ const isProductionHost =
 
 const api = axios.create({
   baseURL: API_BASE,
-  timeout: 2000, // Fast 2s timeout so UI never hangs or blocks main thread
+  timeout: 120000, // 2 minute timeout — embedding generation & Ollama inference need time
 });
 
 // ─── Datasets ───
@@ -128,17 +128,59 @@ export async function checkHealth(): Promise<any> {
   return data;
 }
 
-// ─── RAG Query ───
+// ─── RAG Query & Upload ───
+
+export async function uploadRAGDocuments(files: File[]): Promise<any> {
+  if (isProductionHost) {
+    return { documents_ingested: files.length, chunks_created: files.length * 3, errors: 0 };
+  }
+  const formData = new FormData();
+  files.forEach((file) => formData.append('files', file));
+  const { data } = await api.post('/rag/documents', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+    timeout: 180000, // 3 minutes for document chunking + embedding generation
+  });
+  return data;
+}
 
 export async function queryRAG(
   query: string,
   topK = 5,
-  minScore = 0.0
+  minScore = 0.0,
+  model = "llama3.2:3b"
 ): Promise<any> {
   if (isProductionHost) {
     return { results: [], query };
   }
-  const { data } = await api.post('/rag/query', { query, top_k: topK, min_score: minScore });
+  const { data } = await api.post(
+    '/rag/query',
+    {
+      query,
+      top_k: topK,
+      min_score: minScore,
+      model,
+      generate_answer: true,
+    },
+    {
+      timeout: 120000, // 2 minutes for vector search + Ollama LLM inference
+    }
+  );
+  return data;
+}
+
+export async function getRAGStats(): Promise<any> {
+  if (isProductionHost) {
+    return { total_vectors: 0, files: [] };
+  }
+  const { data } = await api.get('/rag/stats');
+  return data;
+}
+
+export async function clearRAGKnowledgeBase(): Promise<any> {
+  if (isProductionHost) {
+    return { status: 'cleared', total_vectors: 0, files: [] };
+  }
+  const { data } = await api.post('/rag/clear');
   return data;
 }
 

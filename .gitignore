@@ -41,6 +41,9 @@ uploads/
 data/faiss_index/
 data/vector_store/
 insightforge.db
+rag_index.faiss
+rag_index.meta
+OllamaSetup.exe
 
 # Agent Metadata
 .agents/

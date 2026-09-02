@@ -12,10 +12,10 @@ from enum import Enum
 
 class ExplanationConfig(BaseModel):
     """Configuration for explanation generation."""
-    llm_provider: str = "groq"
-    llm_model: str = "llama-3.3-70b-versatile"
+    llm_provider: str = "ollama"
+    llm_model: str = "llama3.2:3b"
     api_key: Optional[str] = None
-    api_base_url: Optional[str] = None
+    api_base_url: Optional[str] = "http://localhost:11434"
     temperature: float = 0.3
     max_tokens: int = 800
     timeout_seconds: int = 30

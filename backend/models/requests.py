@@ -28,3 +28,5 @@ class RAGQueryRequest(BaseModel):
     top_k: int = 5
     min_score: float = 0.0
     filters: Dict[str, Any] = Field(default_factory=dict)
+    model: Optional[str] = "llama3.2:3b"
+    generate_answer: bool = True

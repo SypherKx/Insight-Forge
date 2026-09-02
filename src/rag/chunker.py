@@ -18,7 +18,7 @@ class ChunkConfig:
     """Configuration for text chunking."""
     chunk_size: int = 500  # Target tokens per chunk
     overlap: int = 50  # Token overlap between chunks
-    min_chunk_size: int = 100  # Minimum chunk size (discard smaller)
+    min_chunk_size: int = 1  # Minimum chunk size
     max_chunk_size: int = 1000  # Maximum chunk size
     separator: str = "\n"  # Preferred separator for splitting
     keep_separator: bool = False
@@ -244,6 +244,8 @@ class TextChunker:
         for doc in documents:
             doc_id = doc.get("id", "unknown")
             title = doc.get("title", "")
+            source_path = doc.get("source_path", "")
+            doc_meta = doc.get("metadata", {})
             prefix = f"Title: {title}" if title else ""
 
             text = doc.get(text_key, "")
@@ -252,6 +254,10 @@ class TextChunker:
                 continue
 
             chunks = self.chunk_text(text, doc_id, prefix)
+            for c in chunks:
+                c["title"] = title
+                c["source_path"] = source_path
+                c["doc_metadata"] = doc_meta
             all_chunks.extend(chunks)
 
         logger.info(f"Total: {len(all_chunks)} chunks from {len(documents)} documents")
@@ -263,7 +269,7 @@ def create_default_chunker() -> TextChunker:
     config = ChunkConfig(
         chunk_size=500,
         overlap=50,
-        min_chunk_size=100,
+        min_chunk_size=1,
         max_chunk_size=1000
     )
     return TextChunker(config)

@@ -26,7 +26,7 @@ tags:
 
 ## 💬 Token-Saving AI Summary
 ```text
-Module: backend\config.py (72 lines)
+Module: backend\config.py (73 lines)
 Tags: #code, #backend
 Hub: 05_FastAPI_Backend_Hub
 Exports: class Settings, class Config:, def cors_origin_list, def ensure_dirs

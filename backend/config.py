@@ -36,8 +36,9 @@ class Settings(BaseSettings):
     max_upload_size_mb: int = 500
 
     # LLM
-    llm_provider: str = "groq"
-    llm_model: str = "llama-3.3-70b-versatile"
+    llm_provider: str = "ollama"
+    ollama_base_url: str = "http://localhost:11434"
+    llm_model: str = "llama3.2:3b"
     groq_api_key: Optional[str] = None
     openai_api_key: Optional[str] = None
 

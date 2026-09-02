@@ -30,7 +30,10 @@ class IngestionConfig:
 
     def __post_init__(self):
         if self.allowed_extensions is None:
-            self.allowed_extensions = [".pdf", ".txt", ".md"]
+            self.allowed_extensions = [
+                ".pdf", ".txt", ".md", ".csv", ".json", ".log",
+                ".rst", ".html", ".xml", ".docx"
+            ]
 
 
 class DocumentIngester:
@@ -57,6 +60,13 @@ class DocumentIngester:
             ".pdf": self._extract_pdf,
             ".txt": self._extract_txt,
             ".md": self._extract_markdown,
+            ".csv": self._extract_csv,
+            ".json": self._extract_json,
+            ".log": self._extract_txt,
+            ".rst": self._extract_txt,
+            ".html": self._extract_txt,
+            ".xml": self._extract_txt,
+            ".docx": self._extract_docx,
         }
 
     def ingest_file(self, file_path: Union[str, Path], org_id: str,
@@ -119,8 +129,7 @@ class DocumentIngester:
                     "file_size_bytes": file_path.stat().st_size,
                     "file_extension": ext,
                     "file_name": file_path.name,
-                },
-                created_at=None  # Will be set by pydantic default
+                }
             )
 
             logger.info(f"Ingested {file_path} ({len(content)} chars, {metadata.get('page_count', 0)} pages)")
@@ -207,7 +216,7 @@ class DocumentIngester:
 
     def _extract_pdf(self, file_path: Path) -> tuple[str, dict]:
         """
-        Extract text from PDF file.
+        Extract text from PDF file using PyMuPDF (fitz), pypdf, or PyPDF2.
 
         Args:
             file_path: PDF file path
@@ -215,36 +224,70 @@ class DocumentIngester:
         Returns:
             Tuple: (text_content, metadata)
         """
+        pages = []
+        metadata = {
+            "page_count": 0,
+            "author": None,
+            "title": None,
+            "creation_date": None,
+        }
+
+        # 1. Try PyMuPDF (fitz) - fastest & highest fidelity
         try:
-            from pypdf import PdfReader
-
-            reader = PdfReader(str(file_path))
-            pages = []
-
-            metadata = {
-                "page_count": len(reader.pages),
-                "author": reader.metadata.author if reader.metadata else None,
-                "title": reader.metadata.title if reader.metadata else None,
-                "creation_date": str(reader.metadata.creation_date) if reader.metadata else None,
-            }
-
-            for i, page in enumerate(reader.pages):
-                try:
-                    page_text = page.extract_text()
-                    if page_text:
-                        pages.append(page_text)
-                except Exception as e:
-                    logger.warning(f"Failed to extract text from page {i} of {file_path}: {e}")
-
-            content = "\n\n".join(pages)
-            return content, metadata
-
+            import fitz
+            doc = fitz.open(str(file_path))
+            metadata["page_count"] = len(doc)
+            if doc.metadata:
+                metadata["author"] = doc.metadata.get("author")
+                metadata["title"] = doc.metadata.get("title")
+                metadata["creation_date"] = doc.metadata.get("creationDate")
+            for page in doc:
+                text = page.get_text()
+                if text and text.strip():
+                    pages.append(text.strip())
+            doc.close()
+            if pages:
+                return "\n\n".join(pages), metadata
         except ImportError:
-            logger.error("pypdf not installed. Install with: pip install pypdf")
-            raise
+            pass
         except Exception as e:
-            logger.exception(f"PDF extraction failed for {file_path}")
-            raise
+            logger.warning(f"fitz PDF extraction failed for {file_path}: {e}")
+
+        # 2. Try PyPDF2
+        try:
+            import PyPDF2
+            with open(file_path, "rb") as f:
+                reader = PyPDF2.PdfReader(f)
+                metadata["page_count"] = len(reader.pages)
+                for page in reader.pages:
+                    text = page.extract_text()
+                    if text and text.strip():
+                        pages.append(text.strip())
+            if pages:
+                return "\n\n".join(pages), metadata
+        except ImportError:
+            pass
+        except Exception as e:
+            logger.warning(f"PyPDF2 extraction failed for {file_path}: {e}")
+
+        # 3. Try pypdf
+        try:
+            import pypdf
+            reader = pypdf.PdfReader(str(file_path))
+            metadata["page_count"] = len(reader.pages)
+            for page in reader.pages:
+                text = page.extract_text()
+                if text and text.strip():
+                    pages.append(text.strip())
+            if pages:
+                return "\n\n".join(pages), metadata
+        except Exception as e:
+            logger.warning(f"pypdf extraction failed for {file_path}: {e}")
+
+        content = "\n\n".join(pages)
+        if not content:
+            raise ValueError(f"Could not extract readable text from PDF: {file_path}")
+        return content, metadata
 
     def _extract_txt(self, file_path: Path) -> tuple[str, dict]:
         """
@@ -256,51 +299,90 @@ class DocumentIngester:
         Returns:
             Tuple: (text_content, metadata)
         """
-        try:
-            with open(file_path, 'r', encoding=self.config.encoding) as f:
-                content = f.read()
+        content = None
+        used_enc = self.config.encoding
+        for encoding in [self.config.encoding, 'utf-8', 'utf-8-sig', 'latin-1', 'cp1252']:
+            try:
+                with open(file_path, 'r', encoding=encoding, errors='replace') as f:
+                    content = f.read()
+                used_enc = encoding
+                break
+            except Exception:
+                continue
 
-            metadata = {
-                "file_size": file_path.stat().st_size,
-                "encoding": self.config.encoding,
-            }
+        if content is None:
+            raise ValueError(f"Unable to decode text file: {file_path}")
 
-            return content, metadata
-
-        except UnicodeDecodeError:
-            # Try with different encodings
-            for encoding in ['utf-8-sig', 'latin-1', 'cp1252']:
-                try:
-                    with open(file_path, 'r', encoding=encoding) as f:
-                        content = f.read()
-                    metadata = {"encoding": encoding}
-                    return content, metadata
-                except UnicodeDecodeError:
-                    continue
-
-            logger.error(f"Unable to decode text file: {file_path}")
-            raise
+        metadata = {
+            "file_size": file_path.stat().st_size,
+            "encoding": used_enc,
+        }
+        return content, metadata
 
     def _extract_markdown(self, file_path: Path) -> tuple[str, dict]:
-        """
-        Extract text from Markdown file.
-
-        Args:
-            file_path: Markdown file path
-
-        Returns:
-            Tuple: (text_content, metadata)
-        """
-        # Markdown is plain text with formatting
+        """Extract text from Markdown file."""
         content, metadata = self._extract_txt(file_path)
         metadata["file_type"] = "markdown"
         return content, metadata
+
+    def _extract_csv(self, file_path: Path) -> tuple[str, dict]:
+        """Extract text from CSV file with column structure."""
+        try:
+            import csv
+            rows_summary = []
+            with open(file_path, 'r', encoding='utf-8', errors='replace') as f:
+                reader = csv.reader(f)
+                headers = next(reader, None)
+                if headers:
+                    rows_summary.append(f"Headers: {', '.join(headers)}")
+                    for idx, row in enumerate(reader):
+                        if idx < 500:  # Cap at first 500 rows for concise RAG context
+                            item_strs = [f"{h}: {v}" for h, v in zip(headers, row) if v]
+                            rows_summary.append(f"Row {idx+1}: {'; '.join(item_strs)}")
+                        else:
+                            break
+            content = "\n".join(rows_summary)
+            return content, {"file_type": "csv", "file_size": file_path.stat().st_size}
+        except Exception:
+            return self._extract_txt(file_path)
+
+    def _extract_json(self, file_path: Path) -> tuple[str, dict]:
+        """Extract text from JSON file."""
+        try:
+            import json
+            with open(file_path, 'r', encoding='utf-8', errors='replace') as f:
+                data = json.load(f)
+            formatted = json.dumps(data, indent=2)
+            return formatted, {"file_type": "json", "file_size": file_path.stat().st_size}
+        except Exception:
+            return self._extract_txt(file_path)
+
+    def _extract_docx(self, file_path: Path) -> tuple[str, dict]:
+        """Extract text from DOCX file."""
+        try:
+            import docx
+            doc = docx.Document(str(file_path))
+            paras = [p.text for p in doc.paragraphs if p.text.strip()]
+            content = "\n\n".join(paras)
+            return content, {"file_type": "docx", "paragraphs_count": len(paras)}
+        except Exception:
+            # Fallback using zipfile xml extraction
+            import zipfile
+            import xml.etree.ElementTree as ET
+            with zipfile.ZipFile(file_path) as z:
+                xml_content = z.read('word/document.xml')
+            tree = ET.fromstring(xml_content)
+            texts = [node.text for node in tree.iter() if node.text]
+            return " ".join(texts), {"file_type": "docx"}
 
 
 def create_default_ingester() -> DocumentIngester:
     """Create ingester with default configuration."""
     config = IngestionConfig(
-        allowed_extensions=[".pdf", ".txt", ".md"],
+        allowed_extensions=[
+            ".pdf", ".txt", ".md", ".csv", ".json", ".log",
+            ".rst", ".html", ".xml", ".docx"
+        ],
         max_file_size_mb=50,
         recursive=False
     )

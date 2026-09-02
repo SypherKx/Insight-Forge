@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { Activity, AlertTriangle, FileText, Search, Upload, ArrowUpRight, CheckCircle2, ShieldCheck, Sparkles } from "lucide-react";
 import {
@@ -13,6 +13,9 @@ import { getDatasets } from "../services/api";
 import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/app/dashboard")({
+  beforeLoad: () => {
+    throw redirect({ to: "/app/query" });
+  },
   head: () => ({ meta: [{ title: "Clinical & Educational RAG Cockpit — InsightForge" }] }),
   component: DashboardPage,
 });

@@ -152,6 +152,9 @@ class RAGQueryResponse(BaseModel):
     query: str = ""
     total_results: int = 0
     query_time_ms: float = 0.0
+    answer: Optional[str] = None
+    llm_model: Optional[str] = None
+    used_llm: bool = False
 
 
 class RAGUploadResponse(BaseModel):

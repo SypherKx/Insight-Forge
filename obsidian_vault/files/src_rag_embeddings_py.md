@@ -32,7 +32,7 @@ tags:
 
 ## 💬 Token-Saving AI Summary
 ```text
-Module: src\rag\embeddings.py (207 lines)
+Module: src\rag\embeddings.py (208 lines)
 Tags: #code, #rag
 Hub: 02_RAG_Pipeline_Hub
 Exports: class EmbeddingConfig:, class EmbeddingGenerator:, def __init__, def _lazy_init, def dimension
