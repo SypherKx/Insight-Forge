@@ -4,12 +4,9 @@ import json
 import shutil
 from pathlib import Path
 
-# Detect base directory (whether run from outer or inner root)
+# Detect base directory
 SCRIPT_DIR = Path(__file__).parent.resolve()
-if (SCRIPT_DIR / "Insight-Forge-master").exists():
-    BASE_DIR = SCRIPT_DIR / "Insight-Forge-master"
-else:
-    BASE_DIR = SCRIPT_DIR
+BASE_DIR = SCRIPT_DIR.parent.resolve()
 
 VAULT_DIR = BASE_DIR / "obsidian_vault"
 FILES_DIR = VAULT_DIR / "files"

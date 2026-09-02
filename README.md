@@ -1,27 +1,57 @@
-# 🛠️ InsightForge AI — Retrieval-Augmented Generation (RAG) for Healthcare & Education
+# 🛠️ InsightForge AI — Local Retrieval-Augmented Generation (RAG) for Healthcare & Education
 
 > **AI-powered healthcare and educational intelligence platform that detects clinical vitals anomalies, uncovers protocol root causes, and delivers grounded, context-aware explanations using a local Retrieval-Augmented Generation (RAG) pipeline and semantic vector search.**
 
-Welcome to **InsightForge AI**—a **RAG (Retrieval-Augmented Generation)** platform designed for **Healthcare & Education**! I built this platform to connect clinical vital anomaly detection and academic metric tracking with LLMs and local vector knowledge bases. 
+Welcome to **InsightForge AI**—a production-grade **RAG (Retrieval-Augmented Generation)** platform designed for **Healthcare & Education**! InsightForge AI connects clinical vital anomaly detection and academic metric tracking with local LLMs (Ollama `llama3.2:3b` / Groq) and FAISS vector knowledge bases.
 
 InsightForge AI helps medical clinicians, clinical trialists, researchers, and university faculties monitor key health and academic signals in real time (blood lab test spikes, patient ICU vitals, course completion drop-offs). It automatically detects deviations, traces them to protocol root causes, and uses a local RAG pipeline to pull context from clinical guidelines (FDA drug protocols, PubMed medical research papers, university lecture syllabi) to explain **what** happened and **why** with exact page and paragraph citations.
 
 ---
 
-## 🧠 Why I Built This & My RAG Learning Journey
+## 📁 Clean Repository Structure
 
-Traditional medical dashboards show *what* patient vital metric changed, but they don't give you immediate clinical protocol context. When a vital spikes or a trial metric drops, doctors and researchers have to manually search through 100-page PDF clinical guidelines, PubMed literature, or EMR records.
-
-I wanted to solve this by building a system that:
-1. Detects clinical and academic anomalies statistically (Z-score, MAD, IQR, Pettitt change-point test).
-2. Automatically searches internal medical documentation & textbooks to find corresponding evidence (e.g., "Paxlovid dosage adjustment in renal impairment" or "Pediatric leukemia Phase 3 trial").
-3. Synthesizes these two sources of information into a zero-hallucination, cited executive summary.
-
-Since this was my RAG project, my main goal was to master vector databases, text chunking strategies, and dense embeddings for sensitive domain data.
+```
+Insight-Forge-AI/
+├── backend/                  # FastAPI REST API & Storage Engine
+│   ├── main.py               # Application entry point & CORS configuration
+│   ├── config.py             # App settings (Pydantic BaseSettings)
+│   ├── routers/              # Endpoint routes (health, datasets, anomalies, RAG)
+│   ├── services/             # Business logic & RAG integration
+│   └── storage/              # SQLite DB models & file storage
+│
+├── frontend/                 # React 19 + Vite 7 Modern Editorial Web App
+│   ├── src/                  # App components, TanStack router, services, & styles
+│   ├── public/               # Static web assets
+│   └── package.json          # Node dependencies
+│
+├── src/                      # Core AI & Analytical Python Packages
+│   ├── detection/            # Statistical anomaly detection (Z-score, IQR, Pettitt test)
+│   ├── root_cause/           # Driver dimension quantification & correlation analysis
+│   ├── explainer/            # Context synthesis & LLM prompt generators
+│   ├── ingestion/            # Document parsing, cleaning, and metadata validation
+│   └── rag/                  # FAISS vector store, text chunking, and dense embeddings
+│
+├── data/                     # Sample datasets and generator scripts
+│   ├── sample_data.csv       # Clinical & academic test dataset
+│   └── generate_sample.py    # Synthetic dataset generator script
+│
+├── scripts/                  # Repository utility & verification scripts
+│   ├── verify_ingestion.py   # Verification suite for RAG & ingestion pipeline
+│   └── generate_obsidian_vault.py # Rebuilds Obsidian architecture knowledge graph
+│
+├── tests/                    # Pytest test suite (83 unit & integration tests)
+│   ├── detection/            # Anomaly detection unit tests
+│   └── ingestion/            # Pipeline, cleaner, and validator tests
+│
+├── docs/                     # System architecture & design documentation
+│   └── architecture.md       # Comprehensive technical design doc
+│
+└── obsidian_vault/           # Interactive Obsidian Knowledge Graph (57 module notes)
+```
 
 ---
 
-## 🚀 How I Built the RAG Pipeline
+## 🚀 How the RAG Pipeline Works
 
 Here is a breakdown of the RAG architecture implemented in `src/rag/`:
 
@@ -33,48 +63,42 @@ Here is a breakdown of the RAG architecture implemented in `src/rag/`:
                                                                 │
                                                                 ▼
 ┌──────────────────┐      ┌─────────────────┐      ┌────────────────────────┐
-│   FastAPI API    │ <─── │   Groq LLM      │ <─── │  FAISS Vector Index    │
-│  Response        │      │ (Llama 3.3 70B) │      │ (IndexFlatIP Search)   │
+│   FastAPI API    │ <─── │ Local Ollama /  │ <─── │  FAISS Vector Index    │
+│  Response        │      │   Groq LLM      │      │ (IndexFlatIP Search)   │
 └──────────────────┘      └─────────────────┘      └────────────────────────┘
 ```
 
-### 1. Ingestion & Chunking (`ingestion.py` & `chunker.py`)
-*   **File Ingestion**: Supports uploading PubMed `.pdf` papers, EMR `.csv` files, `.txt`, and `.md` textbook syllabi.
-*   **Overlapping Chunks**: Uses a windowing approach (`chunk_size=500` with `overlap=50`) to ensure medical sentences and clinical dosages are never split across boundaries.
+### 1. Ingestion & Chunking (`src/rag/ingestion.py` & `src/rag/chunker.py`)
+* **File Ingestion**: Supports uploading PubMed `.pdf` papers, EMR `.csv` files, `.txt`, and `.md` textbook syllabi.
+* **Overlapping Chunks**: Uses a windowing approach (`chunk_size=500` with `overlap=50`) to ensure medical sentences and clinical dosages are never split across boundaries.
 
-### 2. Dense Vector Embeddings (`embeddings.py`)
-*   Uses local **Hugging Face Sentence-Transformers** (`sentence-transformers/all-MiniLM-L6-v2`) to map each clinical text chunk into a **384-dimensional dense vector**.
+### 2. Dense Vector Embeddings (`src/rag/embeddings.py`)
+* Uses local **Hugging Face Sentence-Transformers** (`sentence-transformers/all-MiniLM-L6-v2`) to map each clinical text chunk into a **384-dimensional dense vector**.
 
-### 3. Local Vector Database (`vectorstore.py` & `retriever.py`)
-*   **Facebook AI Similarity Search (FAISS)**: Runs 100% locally with `faiss-cpu` to ensure HIPAA & FERPA ready data privacy with zero third-party cloud data leakage.
-*   **Cosine Similarity**: Normalizes embedding vectors and uses FAISS `IndexFlatIP` to calculate relevance scores.
-*   **Index Persistence**: Disk serialization (`.faiss` and `.meta` files) saves indices to disk.
+### 3. Local Vector Database (`src/rag/vectorstore.py` & `src/rag/retriever.py`)
+* **Facebook AI Similarity Search (FAISS)**: Runs 100% locally with `faiss-cpu` to ensure HIPAA & FERPA ready data privacy with zero third-party cloud data leakage.
+* **Cosine Similarity**: Normalizes embedding vectors and uses FAISS `IndexFlatIP` to calculate relevance scores.
 
-### 4. LLM Retrieval & Prompt Synthesis (`pipeline.py`)
-*   Searches the FAISS index for top `k` matching text chunks for any query.
-*   Inserts retrieved evidence into prompt templates alongside anomaly stats and sends it to the **Groq API (Llama 3.3 70B)** to generate cited, grounded explanations.
-
----
-
-## ✨ Features
-
-*   **🔍 Statistical Health Signal Detection**: Ensemble algorithms (IQR, Z-score, Pettitt test) automatically isolate vital drops or lab test spikes.
-*   **📊 Protocol & Curriculum Attribution**: Quantifies exact driver dimensions (e.g., *Medication Dosage: Paxlovid* or *ICU Ward: 4*).
-*   **💬 Medical RAG Evidence Search**: Search FDA drug labels, PubMed papers, and textbook syllabi using natural language.
-*   **✨ Warm Editorial Interface**: A warm-tinted interface with Light/Dark mode toggling, responsive charts, and smooth scroll animations.
+### 4. LLM Retrieval & Prompt Synthesis (`src/rag/pipeline.py` & `backend/services/rag_service.py`)
+* Searches the FAISS index for top `k` matching text chunks for any query.
+* Inserts retrieved evidence into prompt templates alongside anomaly stats and sends it to **Local Ollama (`llama3.2:3b`)** or **Groq API** to generate cited, grounded explanations.
 
 ---
 
-## ⚡ Quick Start
+## ✨ Core Features
 
-### Step 1: Install Backend & RAG Dependencies
+* **🔍 Statistical Health Signal Detection**: Ensemble algorithms (IQR, Z-score, Pettitt test) automatically isolate vital drops or lab test spikes.
+* **📊 Protocol & Curriculum Attribution**: Quantifies exact driver dimensions (e.g., *Medication Dosage: Paxlovid* or *ICU Ward: 4*).
+* **💬 Medical RAG Evidence Search**: Search FDA drug labels, PubMed papers, and textbook syllabi using natural language with cited passages.
+* **✨ Warm Editorial Interface**: A warm-tinted interface with Light/Dark mode toggling, responsive charts, and smooth scroll animations.
 
-1. Navigate to the project directory:
-   ```bash
-   cd "c:\Users\itska\OneDrive\Desktop\Insight-Forge-master\Insight-Forge-master"
-   ```
+---
 
-2. Setup virtual environment:
+## ⚡ Quick Start & Development Guide
+
+### Step 1: Backend Setup
+
+1. **Setup Python Virtual Environment**:
    ```bash
    python -m venv venv
    # On Windows:
@@ -83,69 +107,76 @@ Here is a breakdown of the RAG architecture implemented in `src/rag/`:
    source venv/bin/activate
    ```
 
-3. Install requirements (includes `faiss-cpu` and `sentence-transformers`):
+2. **Install Dependencies**:
    ```bash
    pip install -r requirements.txt
    ```
 
-4. Start FastAPI server:
+3. **Verify Pipeline & Run Tests**:
+   ```bash
+   python scripts/verify_ingestion.py
+   pytest
+   ```
+
+4. **Start FastAPI Backend Server**:
    ```bash
    python -m uvicorn backend.main:app --reload --host 127.0.0.1 --port 8000
    ```
-   *   **API Documentation**: http://localhost:8000/docs
+   * **API Documentation (Swagger UI)**: `http://127.0.0.1:8000/docs`
 
 ---
 
-### Step 2: Configure Environment Variables
+### Step 2: Frontend Setup
 
-Edit/create `.env` in the root directory:
-```env
-GROQ_API_KEY=your_groq_api_key_here
-DATABASE_URL=sqlite:///./insightforge.db
-RAG_ENABLED=true
-```
-
----
-
-### Step 3: Run the Frontend Application
-
-1. Open a new terminal tab and enter the `frontend` directory:
+1. **Navigate to `frontend/`**:
    ```bash
    cd frontend
    ```
 
-2. Install dependencies:
+2. **Install Node Dependencies**:
    ```bash
-   npm install   # or bun install
+   npm install
    ```
 
-3. Start the hot-reloading development server:
+3. **Start Development Server**:
    ```bash
    npm run dev
    ```
-
-4. Open in your browser:
-   *   **App UI**: http://localhost:8081
+   * **App UI**: `http://localhost:8081`
 
 ---
 
-## 🛠️ The Tech Stack
+### Step 3: Configure LLM Provider (Ollama or Groq)
 
-### Backend & AI
-*   **RAG Engine**: FAISS Index Flat Inner Product, Sentence Transformers (`all-MiniLM-L6-v2`), PyPDF.
-*   **FastAPI**: High performance Python backend routing.
-*   **Pandas & NumPy**: Core statistical data processing.
+Edit `.env` in the root directory:
+```env
+LLM_PROVIDER=ollama
+OLLAMA_BASE_URL=http://localhost:11434
+LLM_MODEL=llama3.2:3b
+RAG_ENABLED=true
 
-### Frontend
-*   **React 19 & Vite 7**: Modern UI runtime and build engine.
-*   **TanStack Router**: Type-safe routing for views.
-*   **Tailwind CSS 4 & Framer Motion**: Responsive styling and scroll animations.
-*   **Recharts**: Clinical and academic metric charts.
+# Optional: Cloud LLM fallback
+GROQ_API_KEY=your_groq_api_key_here
+```
 
 ---
 
-## 💬 A Message to Viewers & Fellow Learners
+## 🛠️ Tech Stack Overview
 
-Thanks for checking out my project! As a project exploring **Retrieval-Augmented Generation (RAG) for Healthcare & Education**, I'm incredibly excited about the potential of vector databases and cited LLM synthesis. 
+### Backend & AI Engine
+* **RAG Core**: FAISS (`faiss-cpu`), Sentence Transformers (`all-MiniLM-L6-v2`), PyPDF.
+* **LLM Engine**: Local Ollama (`llama3.2:3b`) & Groq API integration.
+* **FastAPI**: High performance Python backend framework.
+* **Pandas & NumPy**: Core statistical processing and ensemble anomaly detection.
 
-If you are also exploring RAG or have feedback on optimizing FAISS indices, chunking overlaps, or clinical prompt structures, let's connect! Open an issue or drop a line—let me know your thoughts! 🚀
+### Frontend Application
+* **React 19 & Vite 7**: Modern UI runtime and build engine.
+* **TanStack Router**: Type-safe routing for dashboard views.
+* **Tailwind CSS 4 & Framer Motion**: Responsive styling and smooth scroll animations.
+* **Recharts**: Clinical and academic metric charts.
+
+---
+
+## 💬 Community & Contributions
+
+Contributions, bug reports, and feature requests are welcome! Feel free to open an issue or submit a pull request. 🚀

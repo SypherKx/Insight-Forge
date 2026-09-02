@@ -10,8 +10,10 @@ import sys
 from pathlib import Path
 import traceback
 
-# Add src to path
-sys.path.insert(0, str(Path(__file__).parent / "src"))
+# Add project root to path
+ROOT_DIR = str(Path(__file__).resolve().parent.parent)
+if ROOT_DIR not in sys.path:
+    sys.path.insert(0, ROOT_DIR)
 
 def test_imports():
     """Test that all modules can be imported."""
